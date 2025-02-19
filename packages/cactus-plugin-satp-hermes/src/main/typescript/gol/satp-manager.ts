@@ -258,6 +258,17 @@ export class SATPManager {
     return this.satpHandlers.get(type);
   }
 
+  public getSATPSessionState(): boolean {
+    const fnTag = `${SATPManager.CLASS_NAME}#getSATPSessionStatus()`;
+    this.logger.info(`${fnTag}, Getting SATP Session Status...`);
+    for (let value of this.sessions.values()) {
+      if (value.getSessionState() !== State.COMPLETED) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   public getOrCreateSession(
     sessionId?: string,
     contextID?: string,
