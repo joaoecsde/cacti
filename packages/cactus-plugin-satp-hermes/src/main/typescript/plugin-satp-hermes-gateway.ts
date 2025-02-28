@@ -605,6 +605,8 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
     this.logger.debug(`Entering ${fnTag}`);
     if (this.BLOServer) {
       try {
+        this.logger.info("Calling verifySessionsState...");
+        await this.verifySessionsState();
         await this.BLOServer.closeAllConnections();
         await this.BLOServer.close();
         this.BLOServer = undefined;
@@ -635,5 +637,24 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
     } else {
       this.logger.warn("Server is not running.");
     }
+  }
+  
+  private async verifySessionsState(): Promise<void> {
+    const fnTag = `${this.className}#verifySessionsState()`;
+    this.logger.trace(`Entering ${fnTag}`);
+    if (!this.BLODispatcher) {
+      throw new Error("BLODispatcher is not defined");
+    }
+    const manager = await this.BLODispatcher.getManager();
+    let status = false;
+    while (!status) {
+      this.logger.debug(`Inside: ${status}`);
+      status = await manager.getSATPSessionState();
+      if (!status) {
+        this.logger.info("Sessions are still pending...");
+        await new Promise(resolve => setTimeout(resolve, 20000));
+      }
+    }
+    this.logger.info("All sessions are concluded!!");
   }
 }

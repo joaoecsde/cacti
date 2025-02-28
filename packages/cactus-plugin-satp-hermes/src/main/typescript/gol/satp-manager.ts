@@ -37,7 +37,10 @@ import { Stage2SATPHandler } from "../core/stage-handlers/stage2-handler";
 import { Stage3SATPHandler } from "../core/stage-handlers/stage3-handler";
 import { SATPBridgesManager } from "./satp-bridges-manager";
 import { GatewayOrchestrator } from "./gateway-orchestrator";
-import { SessionData } from "../generated/proto/cacti/satp/v02/common/session_pb";
+import { 
+  SessionData,
+  State,
+} from "../generated/proto/cacti/satp/v02/common/session_pb";
 import { SatpStage0Service } from "../generated/proto/cacti/satp/v02/service/stage_0_pb";
 import { SatpStage1Service } from "../generated/proto/cacti/satp/v02/service/stage_1_pb";
 import { SatpStage2Service } from "../generated/proto/cacti/satp/v02/service/stage_2_pb";

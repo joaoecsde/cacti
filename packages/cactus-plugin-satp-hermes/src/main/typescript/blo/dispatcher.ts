@@ -213,6 +213,11 @@ export class BLODispatcher {
     const res = Array.from(await this.manager.getSessions().keys());
     return res;
   }
+
+  public async getManager(): Promise<SATPManager> {
+    this.logger.info(`Get SATP Manager request`);
+    return this.manager;
+  }
   // get channel by caller; give needed client from orchestrator to handler to call
   // for all channels, find session id on request
   // TODO implement handlers GetAudit, Transact, Cancel, Routes
