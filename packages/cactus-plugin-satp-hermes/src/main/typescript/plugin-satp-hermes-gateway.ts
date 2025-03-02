@@ -65,6 +65,7 @@ import cors from "cors";
 import * as OAS from "../json/openapi-blo-bundled.json";
 import type { NetworkId } from "./services/network-identification/chainid-list";
 import { knexLocalInstance } from "./database/knexfile";
+import schedule, { Job } from "node-schedule";
 
 export class SATPGateway implements IPluginWebService, ICactusPlugin {
   @IsDefined()
@@ -104,6 +105,8 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
   public remoteRepository?: IRemoteLogRepository;
   private readonly shutdownHooks: ShutdownHook[];
   private crashManager?: CrashManager;
+  private sessionVerificationJob: Job | null = null;
+
 
   constructor(public readonly options: SATPGatewayConfig) {
     const fnTag = `${this.className}#constructor()`;
@@ -583,7 +586,7 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
   public async shutdown(): Promise<void> {
     const fnTag = `${this.className}#getGatewaySeeds()`;
     this.logger.debug(`Entering ${fnTag}`);
-
+    
     this.logger.info("Shutting down Node server - BOL");
     await this.shutdownBLOServer();
     await this.shutdownGOLServer();
@@ -618,6 +621,7 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
     this.logger.debug(`Entering ${fnTag}`);
     if (this.BLOServer) {
       try {
+        await this.verifySessionsState();
         await this.BLOServer.closeAllConnections();
         await this.BLOServer.close();
         this.BLOServer = undefined;
@@ -649,4 +653,51 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
       this.logger.warn("Server is not running.");
     }
   }
+
+  /**
+   * Verify the state of the sessions before shutting down the server.
+   * This method is called before the server is shut down and awaits ensure that 
+   * all sessions are concluded before the server is terminated.
+   * After all sessions are concluded, the job is cancelled.
+  */
+  private async verifySessionsState(): Promise<void> {
+    const fnTag = `${this.className}#verifySessionsState()`;
+    this.logger.trace(`Entering ${fnTag}`);
+    if (!this.BLODispatcher) {
+      throw new Error(`Cannot ${fnTag} because BLODispatcher is erroneous`);
+    }
+    this.BLODispatcher.setInitiateShutdown();
+    const manager = await this.BLODispatcher.getManager();
+    
+    await this.startSessionVerificationJob(manager);
+    this.logger.info("Session verification process started.");
+  }
+
+
+  /**
+   * Start a scheduled job to verify session states.
+   * The job runs every 20 seconds until all sessions are concluded.
+  */
+  private async startSessionVerificationJob(manager: any): Promise<void> {
+    const fnTag = `${this.className}#startSessionVerificationJob()`;
+    this.logger.trace(`Entering ${fnTag}`);
+
+    this.sessionVerificationJob = schedule.scheduleJob("*/20 * * * * *", async () => {
+      try {
+        const status = await manager.getSATPSessionState();
+        if (!status) {
+          this.logger.info("Sessions are still pending");
+        } else {
+          this.logger.info("All sessions are concluded");
+          if (this.sessionVerificationJob) {
+            this.sessionVerificationJob.cancel(); // Stop the job once sessions are concluded
+            this.logger.info("Session verification job stopped.");
+          }
+        }
+      } catch (error) {
+        this.logger.error(`Error in session verification job: ${error}`);
+      }
+    });
+  }
+  
 }
