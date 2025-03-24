@@ -66,6 +66,7 @@ import * as OAS from "../json/openapi-blo-bundled.json";
 import type { NetworkId } from "./services/network-identification/chainid-list";
 import { knexLocalInstance } from "./database/knexfile";
 import schedule, { Job } from "node-schedule";
+import { BLODispatcherErraneousError } from "./core/errors/satp-errors";
 
 export class SATPGateway implements IPluginWebService, ICactusPlugin {
   @IsDefined()
@@ -265,7 +266,7 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
     const fnTag = `${this.className}#getOrCreateWebServices()`;
     this.logger.trace(`Entering ${fnTag}`);
     if (!this.BLODispatcher) {
-      throw new Error(`Cannot ${fnTag} because BLODispatcher is erroneous`);
+      throw new BLODispatcherErraneousError(fnTag);
     }
     let webServices = await this.BLODispatcher?.getOrCreateWebServices();
     if (this.OAPIServerEnabled) {
@@ -457,7 +458,7 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
 
     if (!this.BLOApplication || !this.BLOServer) {
       if (!this.BLODispatcher) {
-        throw new Error("BLODispatcher is not defined");
+        throw new BLODispatcherErraneousError(fnTag);
       }
       this.BLOApplication = express();
       this.BLOApplication.use(bodyParser.json({ limit: "250mb" }));
@@ -664,7 +665,7 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
     const fnTag = `${this.className}#verifySessionsState()`;
     this.logger.trace(`Entering ${fnTag}`);
     if (!this.BLODispatcher) {
-      throw new Error(`Cannot ${fnTag} because BLODispatcher is erroneous`);
+      throw new BLODispatcherErraneousError(fnTag);
     }
     this.BLODispatcher.setInitiateShutdown();
     const manager = await this.BLODispatcher.getManager();
