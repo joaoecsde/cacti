@@ -21,6 +21,5 @@ export const SatpStage2Service = {
       O: LockAssertionResponse,
       kind: MethodKind.Unary,
     },
-  }
+  },
 } as const;
-

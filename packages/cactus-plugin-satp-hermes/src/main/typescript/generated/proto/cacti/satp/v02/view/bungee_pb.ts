@@ -9,8 +9,11 @@ import type { Message } from "@bufbuild/protobuf";
 /**
  * Describes the file cacti/satp/v02/view/bungee.proto.
  */
-export const file_cacti_satp_v02_view_bungee: GenFile = /*@__PURE__*/
-  fileDesc("CiBjYWN0aS9zYXRwL3YwMi92aWV3L2J1bmdlZS5wcm90bxITY2FjdGkuc2F0cC52MDIudmlldyIdCgpCdW5nZWVWaWV3Eg8KB21lc3NhZ2UYASABKAliBnByb3RvMw");
+export const file_cacti_satp_v02_view_bungee: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    "CiBjYWN0aS9zYXRwL3YwMi92aWV3L2J1bmdlZS5wcm90bxITY2FjdGkuc2F0cC52MDIudmlldyIdCgpCdW5nZWVWaWV3Eg8KB21lc3NhZ2UYASABKAliBnByb3RvMw",
+  );
 
 /**
  * @generated from message cacti.satp.v02.view.BungeeView
@@ -26,6 +29,6 @@ export type BungeeView = Message<"cacti.satp.v02.view.BungeeView"> & {
  * Describes the message cacti.satp.v02.view.BungeeView.
  * Use `create(BungeeViewSchema)` to create a new message.
  */
-export const BungeeViewSchema: GenMessage<BungeeView> = /*@__PURE__*/
+export const BungeeViewSchema: GenMessage<BungeeView> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_view_bungee, 0);
-

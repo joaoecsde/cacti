@@ -4,7 +4,13 @@
 // @ts-nocheck
 
 import { Empty, MethodKind } from "@bufbuild/protobuf";
-import { GetStageVersionResponse, GetStatusResponse, PingResponse, RollbackResponse, SendStatusRequest } from "./session_pb.js";
+import {
+  GetStageVersionResponse,
+  GetStatusResponse,
+  PingResponse,
+  RollbackResponse,
+  SendStatusRequest,
+} from "./session_pb.js";
 
 /**
  * @generated from service cacti.satp.v02.session.SessionStatusService
@@ -30,7 +36,7 @@ export const SessionStatusService = {
       O: Empty,
       kind: MethodKind.Unary,
     },
-  }
+  },
 } as const;
 
 /**
@@ -68,6 +74,5 @@ export const CommonService = {
       O: GetStageVersionResponse,
       kind: MethodKind.Unary,
     },
-  }
+  },
 } as const;
-

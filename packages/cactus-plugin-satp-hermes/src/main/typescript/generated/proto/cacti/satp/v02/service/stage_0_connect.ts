@@ -3,7 +3,14 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { CheckRequest, CheckResponse, NewSessionRequest, NewSessionResponse, PreSATPTransferRequest, PreSATPTransferResponse } from "./stage_0_pb.js";
+import {
+  CheckRequest,
+  CheckResponse,
+  NewSessionRequest,
+  NewSessionResponse,
+  PreSATPTransferRequest,
+  PreSATPTransferResponse,
+} from "./stage_0_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -39,6 +46,5 @@ export const SatpStage0Service = {
       O: CheckResponse,
       kind: MethodKind.Unary,
     },
-  }
+  },
 } as const;
-

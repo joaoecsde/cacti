@@ -21,6 +21,5 @@ export const HealthService = {
       O: CheckHealthResponse,
       kind: MethodKind.Unary,
     },
-  }
+  },
 } as const;
-

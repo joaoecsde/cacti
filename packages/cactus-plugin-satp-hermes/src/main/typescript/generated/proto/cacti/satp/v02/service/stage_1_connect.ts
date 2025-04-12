@@ -3,7 +3,12 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { TransferCommenceRequest, TransferCommenceResponse, TransferProposalRequest, TransferProposalResponse } from "./stage_1_pb.js";
+import {
+  TransferCommenceRequest,
+  TransferCommenceResponse,
+  TransferProposalRequest,
+  TransferProposalResponse,
+} from "./stage_1_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -30,6 +35,5 @@ export const SatpStage1Service = {
       O: TransferCommenceResponse,
       kind: MethodKind.Unary,
     },
-  }
+  },
 } as const;
-

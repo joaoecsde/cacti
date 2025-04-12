@@ -3,7 +3,14 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { CommitFinalAssertionRequest, CommitFinalAssertionResponse, CommitPreparationRequest, CommitPreparationResponse, TransferCompleteRequest, TransferCompleteResponse } from "./stage_3_pb.js";
+import {
+  CommitFinalAssertionRequest,
+  CommitFinalAssertionResponse,
+  CommitPreparationRequest,
+  CommitPreparationResponse,
+  TransferCompleteRequest,
+  TransferCompleteResponse,
+} from "./stage_3_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -39,6 +46,5 @@ export const SatpStage3Service = {
       O: TransferCompleteResponse,
       kind: MethodKind.Unary,
     },
-  }
+  },
 } as const;
-

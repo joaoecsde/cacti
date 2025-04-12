@@ -2,15 +2,22 @@
 // @generated from file cacti/satp/v02/common/message.proto (package cacti.satp.v02.common, syntax proto3)
 /* eslint-disable */
 
-import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
+import type {
+  GenEnum,
+  GenFile,
+  GenMessage,
+} from "@bufbuild/protobuf/codegenv1";
 import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file cacti/satp/v02/common/message.proto.
  */
-export const file_cacti_satp_v02_common_message: GenFile = /*@__PURE__*/
-  fileDesc("CiNjYWN0aS9zYXRwL3YwMi9jb21tb24vbWVzc2FnZS5wcm90bxIVY2FjdGkuc2F0cC52MDIuY29tbW9uIvwECg5UcmFuc2ZlckNsYWltcxIYChBkaWdpdGFsX2Fzc2V0X2lkGAEgASgJEhgKEGFzc2V0X3Byb2ZpbGVfaWQYAiABKAkSJQoddmVyaWZpZWRfb3JpZ2luYXRvcl9lbnRpdHlfaWQYAyABKAkSJgoedmVyaWZpZWRfYmVuZWZpY2lhcnlfZW50aXR5X2lkGAQgASgJEhkKEW9yaWdpbmF0b3JfcHVia2V5GAUgASgJEhoKEmJlbmVmaWNpYXJ5X3B1YmtleRgGIAEoCRIhChlzZW5kZXJfZ2F0ZXdheV9uZXR3b3JrX2lkGAcgASgJEiQKHHJlY2lwaWVudF9nYXRld2F5X25ldHdvcmtfaWQYCCABKAkSHQoVY2xpZW50X2dhdGV3YXlfcHVia2V5GAkgASgJEh0KFXNlcnZlcl9nYXRld2F5X3B1YmtleRgKIAEoCRIfChdzZW5kZXJfZ2F0ZXdheV9vd25lcl9pZBgLIAEoCRIhChlyZWNlaXZlcl9nYXRld2F5X293bmVyX2lkGAwgASgJEhMKC21heF9yZXRyaWVzGA0gASgNEhMKC21heF90aW1lb3V0GA4gASgEEh4KFmFtb3VudF9mcm9tX29yaWdpbmF0b3IYDyABKAkSHQoVYW1vdW50X3RvX2JlbmVmaWNpYXJ5GBAgASgJEj4KEHByb2Nlc3NfcG9saWNpZXMYESADKAsyJC5jYWN0aS5zYXRwLnYwMi5jb21tb24uUHJpdmFjeVBvbGljeRI8Cg5tZXJnZV9wb2xpY2llcxgSIAMoCzIkLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5Qcml2YWN5UG9saWN5IhYKFFRyYW5zZmVyQ2xhaW1zRm9ybWF0IjAKDVByaXZhY3lQb2xpY3kSDAoEbmFtZRgBIAEoCRIRCglhcmd1bWVudHMYAiADKAkiDQoLUGVybWlzc2lvbnMiEQoPU3Vic2VxdWVudENhbGxzIrgCCgdIaXN0b3J5EjgKDHRyYW5zYWN0aW9ucxgBIAMoCzIiLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5UcmFuc2FjdGlvbhJAChFhY3Rpb25fY2F0ZWdvcmllcxgCIAMoCzIlLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5BY3Rpb25DYXRlZ29yeRIOCgZvcmlnaW4YAyABKAkSEwoLZGVzdGluYXRpb24YBCABKAkSDwoHYmFsYW5jZRgFIAEoCRItCgZzdGF0dXMYBiABKA4yHS5jYWN0aS5zYXRwLnYwMi5jb21tb24uU1RBVFVTEkwKFmFwcGxpY2F0aW9uX3BhcmFtZXRlcnMYByABKAsyLC5jYWN0aS5zYXRwLnYwMi5jb21tb24uQXBwbGljYXRpb25QYXJhbWV0ZXJzIhAKDkFjdGlvbkNhdGVnb3J5Ig0KC1RyYW5zYWN0aW9uIhcKFUFwcGxpY2F0aW9uUGFyYW1ldGVycyKEBQoTTmV0d29ya0NhcGFiaWxpdGllcxIhChlzZW5kZXJfZ2F0ZXdheV9uZXR3b3JrX2lkGAEgASgJEkYKE3NpZ25hdHVyZV9hbGdvcml0aG0YAiABKA4yKS5jYWN0aS5zYXRwLnYwMi5jb21tb24uU2lnbmF0dXJlQWxnb3JpdGhtElEKHnN1cHBvcnRlZF9zaWduYXR1cmVfYWxnb3JpdGhtcxgDIAMoDjIpLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5TaWduYXR1cmVBbGdvcml0aG0SMgoJbG9ja190eXBlGAQgASgOMh8uY2FjdGkuc2F0cC52MDIuY29tbW9uLkxvY2tUeXBlEhwKFGxvY2tfZXhwaXJhdGlvbl90aW1lGAUgASgEEjcKC3Blcm1pc3Npb25zGAYgASgLMiIuY2FjdGkuc2F0cC52MDIuY29tbW9uLlBlcm1pc3Npb25zEhUKDWRldmVsb3Blcl91cm4YByABKAkSRAoSY3JlZGVudGlhbF9wcm9maWxlGAggASgOMiguY2FjdGkuc2F0cC52MDIuY29tbW9uLkNyZWRlbnRpYWxQcm9maWxlEhsKE2FwcGxpY2F0aW9uX3Byb2ZpbGUYCSABKAkSFwoPbG9nZ2luZ19wcm9maWxlGAogASgJEh4KFmFjY2Vzc19jb250cm9sX3Byb2ZpbGUYCyABKAkSQAoQc3Vic2VxdWVudF9jYWxscxgMIAEoCzImLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5TdWJzZXF1ZW50Q2FsbHMSLwoHaGlzdG9yeRgNIAMoCzIeLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5IaXN0b3J5IrYECgpDb21tb25TYXRwEg8KB3ZlcnNpb24YASABKAkSOAoMbWVzc2FnZV90eXBlGAIgASgOMiIuY2FjdGkuc2F0cC52MDIuY29tbW9uLk1lc3NhZ2VUeXBlEhIKCnNlc3Npb25faWQYAyABKAkSGwoTdHJhbnNmZXJfY29udGV4dF9pZBgEIAEoCRIXCg9zZXF1ZW5jZV9udW1iZXIYBSABKAQSFAoMcmVzb3VyY2VfdXJsGAYgASgJEj4KD2FjdGlvbl9yZXNwb25zZRgIIAEoCzIlLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5BY3Rpb25SZXNwb25zZRIYChBjcmVkZW50aWFsX2Jsb2NrGAogASgJEj4KD3BheWxvYWRfcHJvZmlsZRgLIAEoCzIlLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5QYXlsb2FkUHJvZmlsZRIvCgdwYXlsb2FkGA0gASgLMh4uY2FjdGkuc2F0cC52MDIuY29tbW9uLlBheWxvYWQSFAoMcGF5bG9hZF9oYXNoGA4gASgJEh0KFWNsaWVudF9nYXRld2F5X3B1YmtleRgPIAEoCRIdChVzZXJ2ZXJfZ2F0ZXdheV9wdWJrZXkYECABKAkSHQoVaGFzaF9wcmV2aW91c19tZXNzYWdlGBEgASgJEg0KBWVycm9yGBIgASgIEjAKCmVycm9yX2NvZGUYEyABKA4yHC5jYWN0aS5zYXRwLnYwMi5jb21tb24uRXJyb3IiEAoOQWN0aW9uUmVzcG9uc2UiYgoOUGF5bG9hZFByb2ZpbGUSOgoNYXNzZXRfcHJvZmlsZRgBIAEoCzIjLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5Bc3NldFByb2ZpbGUSFAoMY2FwYWJpbGl0aWVzGAIgASgJIrsCCgxBc3NldFByb2ZpbGUSDgoGaXNzdWVyGAEgASgJEhIKCmFzc2V0X2NvZGUYAiABKAkSFwoPYXNzZXRfY29kZV90eXBlGAMgASgJEhUKDWlzc3VhbmNlX2RhdGUYBCABKAkSFwoPZXhwaXJhdGlvbl9kYXRlGAUgASgJEh4KFnZlcmlmaWNhdGlvbl9lbmRfcG9pbnQYBiABKAkSGQoRZGlnaXRhbF9zaWduYXR1cmUYByABKAkSFwoPcHJvc3BlY3R1c19saW5rGAggASgJEhwKFGtleV9pbmZvcm1hdGlvbl9saW5rGAkgAygJEhAKCGtleXdvcmRzGAogAygJEh0KFXRyYW5zZmVyX3Jlc3RyaWN0aW9ucxgLIAMoCRIbChNsZWRnZXJfcmVxdWlyZW1lbnRzGAwgAygJIgkKB1BheWxvYWQiTgoYV3JhcEFzc2VydGlvbkNsYWltRm9ybWF0EjIKBmZvcm1hdBgBIAEoDjIiLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5DbGFpbUZvcm1hdCJOChhMb2NrQXNzZXJ0aW9uQ2xhaW1Gb3JtYXQSMgoGZm9ybWF0GAEgASgOMiIuY2FjdGkuc2F0cC52MDIuY29tbW9uLkNsYWltRm9ybWF0Ik4KGE1pbnRBc3NlcnRpb25DbGFpbUZvcm1hdBIyCgZmb3JtYXQYASABKA4yIi5jYWN0aS5zYXRwLnYwMi5jb21tb24uQ2xhaW1Gb3JtYXQiTgoYQnVybkFzc2VydGlvbkNsYWltRm9ybWF0EjIKBmZvcm1hdBgBIAEoDjIiLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5DbGFpbUZvcm1hdCJUCh5Bc3NpZ25tZW50QXNzZXJ0aW9uQ2xhaW1Gb3JtYXQSMgoGZm9ybWF0GAEgASgOMiIuY2FjdGkuc2F0cC52MDIuY29tbW9uLkNsYWltRm9ybWF0IkcKEkxvY2tBc3NlcnRpb25DbGFpbRIPCgdyZWNlaXB0GAEgASgJEg0KBXByb29mGAIgASgJEhEKCXNpZ25hdHVyZRgDIAEoCSJHChJNaW50QXNzZXJ0aW9uQ2xhaW0SDwoHcmVjZWlwdBgBIAEoCRINCgVwcm9vZhgCIAEoCRIRCglzaWduYXR1cmUYAyABKAkiRwoSQnVybkFzc2VydGlvbkNsYWltEg8KB3JlY2VpcHQYASABKAkSDQoFcHJvb2YYAiABKAkSEQoJc2lnbmF0dXJlGAMgASgJIk0KGEFzc2lnbm1lbnRBc3NlcnRpb25DbGFpbRIPCgdyZWNlaXB0GAEgASgJEg0KBXByb29mGAIgASgJEhEKCXNpZ25hdHVyZRgDIAEoCSJHChJXcmFwQXNzZXJ0aW9uQ2xhaW0SDwoHcmVjZWlwdBgBIAEoCRINCgVwcm9vZhgCIAEoCRIRCglzaWduYXR1cmUYAyABKAki1wEKBUFzc2V0EhAKCHRva2VuX2lkGAEgASgJEjQKCnRva2VuX3R5cGUYAiABKA4yIC5jYWN0aS5zYXRwLnYwMi5jb21tb24uVG9rZW5UeXBlEg0KBW93bmVyGAMgASgJEg4KBmFtb3VudBgEIAEoBBIQCghvbnRvbG9neRgFIAEoCRIVCg1jb250cmFjdF9uYW1lGAcgASgJEhgKEGNvbnRyYWN0X2FkZHJlc3MYBiABKAkSDgoGbXNwX2lkGAggASgJEhQKDGNoYW5uZWxfbmFtZRgJIAEoCSpBCgZTVEFUVVMSFgoSU1RBVFVTX1VOU1BFQ0lGSUVEEAASDQoJU1RBVFVTX09LEAESEAoMU1RBVFVTX0VSUk9SEAIq9AYKC01lc3NhZ2VUeXBlEhwKGE1FU1NBR0VfVFlQRV9VTlNQRUNJRklFRBAAEiIKHk1FU1NBR0VfVFlQRV9QUkVfSU5JVF9QUk9QT1NBTBABEiEKHU1FU1NBR0VfVFlQRV9QUkVfSU5JVF9SRUNFSVBUEAISIAocTUVTU0FHRV9UWVBFX1BSRV9JTklUX1JFSkVDVBADEi4KKk1FU1NBR0VfVFlQRV9QUkVfVFJBTlNGRVJfQ09NTUVOQ0VfUkVRVUVTVBAEEi8KK01FU1NBR0VfVFlQRV9QUkVfVFJBTlNGRVJfQ09NTUVOQ0VfUkVTUE9OU0UQBRIeChpNRVNTQUdFX1RZUEVfSU5JVF9QUk9QT1NBTBAGEh0KGU1FU1NBR0VfVFlQRV9JTklUX1JFQ0VJUFQQBxIcChhNRVNTQUdFX1RZUEVfSU5JVF9SRUpFQ1QQCBIqCiZNRVNTQUdFX1RZUEVfVFJBTlNGRVJfQ09NTUVOQ0VfUkVRVUVTVBAJEisKJ01FU1NBR0VfVFlQRV9UUkFOU0ZFUl9DT01NRU5DRV9SRVNQT05TRRAKEhwKGE1FU1NBR0VfVFlQRV9MT0NLX0FTU0VSVBALEiIKHk1FU1NBR0VfVFlQRV9BU1NFUlRJT05fUkVDRUlQVBAMEh8KG01FU1NBR0VfVFlQRV9DT01NSVRfUFJFUEFSRRANEh0KGU1FU1NBR0VfVFlQRV9DT01NSVRfUkVBRFkQDhIdChlNRVNTQUdFX1RZUEVfQ09NTUlUX0ZJTkFMEA8SIQodTUVTU0FHRV9UWVBFX0FDS19DT01NSVRfRklOQUwQEBIpCiVNRVNTQUdFX1RZUEVfQ09NTUlUX1RSQU5TRkVSX0NPTVBMRVRFEBESJAogTUVTU0FHRV9UWVBFX05FV19TRVNTSU9OX1JFUVVFU1QQEhIlCiFNRVNTQUdFX1RZUEVfTkVXX1NFU1NJT05fUkVTUE9OU0UQExIqCiZNRVNTQUdFX1RZUEVfUFJFX1NBVFBfVFJBTlNGRVJfUkVRVUVTVBAUEisKJ01FU1NBR0VfVFlQRV9QUkVfU0FUUF9UUkFOU0ZFUl9SRVNQT05TRRAVEjIKLk1FU1NBR0VfVFlQRV9DT01NSVRfVFJBTlNGRVJfQ09NUExFVEVfUkVTUE9OU0UQFiqPAQoRQ3JlZGVudGlhbFByb2ZpbGUSIgoeQ1JFREVOVElBTF9QUk9GSUxFX1VOU1BFQ0lGSUVEEAASGwoXQ1JFREVOVElBTF9QUk9GSUxFX1NBTUwQARIcChhDUkVERU5USUFMX1BST0ZJTEVfT0FVVEgQAhIbChdDUkVERU5USUFMX1BST0ZJTEVfWDUwORADKvMBChJTaWduYXR1cmVBbGdvcml0aG0SIwofU0lHTkFUVVJFX0FMR09SSVRITV9VTlNQRUNJRklFRBAAEhsKF1NJR05BVFVSRV9BTEdPUklUSE1fUlNBEAESHQoZU0lHTkFUVVJFX0FMR09SSVRITV9FQ0RTQRACEhsKF1NJR05BVFVSRV9BTEdPUklUSE1fRFNBEAMSHAoYU0lHTkFUVVJFX0FMR09SSVRITV9ITUFDEAQSIgoeU0lHTkFUVVJFX0FMR09SSVRITV9SU0FTU0FfUFNTEAUSHQoZU0lHTkFUVVJFX0FMR09SSVRITV9FRERTQRAGKrwBCghMb2NrVHlwZRIZChVMT0NLX1RZUEVfVU5TUEVDSUZJRUQQABIUChBMT0NLX1RZUEVfRkFVQ0VUEAESFgoSTE9DS19UWVBFX1RJTUVMT0NLEAISFgoSTE9DS19UWVBFX0hBU0hMT0NLEAMSGgoWTE9DS19UWVBFX0hBU0hMT0NLVElNRRAEEhgKFExPQ0tfVFlQRV9NVUxUSUNMQUlNEAUSGQoVTE9DS19UWVBFX0RFU1RST1lCVVJOEAYqjQoKBUVycm9yEhUKEUVSUk9SX1VOU1BFQ0lGSUVEEAASIAocRVJST1JfQkFETFlfRk9STUFURURfTUVTU0FHRRABEh0KGUVSUk9SX0lOQ09SUkVDVF9QQVJBTUVURVIQAhIWChJFUlJPUl9BQ0tfTUlTTUFUQ0gQAxImCiJFUlJPUl9CQURMWV9GT1JNQVRFRF9NRVNTQUdFX0NMQUlNEAQSLgoqRVJST1JfQkFETFlfRk9STUFURURfTUVTU0FHRV9CQURfU0lHTkFUVVJFEAUSNQoxRVJST1JfQkFETFlfRk9STUFURURfTUVTU0FHRV9XUk9OR19UUkFOU0FDVElPTl9JRBAGEjUKMUVSUk9SX0JBRExZX0ZPUk1BVEVEX01FU1NBR0VfTUlTTUFUQ0hfSEFTSF9WQUxVRVMQBxIpCiVFUlJPUl9FWFBJUkVEX1NJR05JTkdfS0VZX0NFUlRJRklDQVRFEAgSFwoTRVJST1JfRVhQSVJFRF9DTEFJTRAJEiEKHUVSUk9SX01FU1NBR0VfT1VUX09GX1NFUVVFTkNFEAoSGwoXRVJST1JfU0VTU0lPTl9OT1RfRk9VTkQQCxIeChpFUlJPUl9TRVNTSU9OX0lEX05PVF9GT1VORBAMEh4KGkVSUk9SX1BVQkxJQ19LRVlfTk9UX0ZPVU5EEA0SLQopRVJST1JfU0VOREVSX0dBVEVXQVlfTkVUV09SS19JRF9OT1RfRk9VTkQQDhIkCiBFUlJPUl9DT01NT05fQk9EWV9CQURMWV9GT1JNQVRFRBAPEhwKGEVSUk9SX1NFU1NJT05fTUlTU19NQVRDSBAQEikKJUVSUk9SX1NFU1NJT05fREFUQV9MT0FERURfSU5DT1JSRUNUTFkQERIgChxFUlJPUl9TRVNTSU9OX0RBVEFfTk9UX0ZPVU5EEBISGwoXRVJST1JfU0VTU0lPTl9DT01QTEVURUQQExIbChdFUlJPUl9NSVNTSU5HX1BBUkFNRVRFUhAUEiQKIEVSUk9SX1NBVFBfVkVSU0lPTl9OT1RfU1VQUE9SVEVEEBUSJwojRVJST1JfU0lHTkFUVVJFX1ZFUklGSUNBVElPTl9GQUlMRUQQFhIbChdFUlJPUl9ETFRfTk9UX1NVUFBPUlRFRBAXEhkKFUVSUk9SX0hBU0hfTUlTU19NQVRDSBAYEh8KG0VSUk9SX0NPTlRFWFRfSURfTUlTU19NQVRDSBAZEhgKFEVSUk9SX0JSSURHRV9QUk9CTEVNEBoSJwojRVJST1JfTE9DS19BU1NFUlRJT05fQkFETFlfRk9STUFURUQQGxItCilFUlJPUl9MT0NLX0FTU0VSVElPTl9DTEFJTV9GT1JNQVRfTUlTU0lORxAcEikKJUVSUk9SX0xPQ0tfQVNTRVJUSU9OX0VYUElSQVRJT05fRVJST1IQHRInCiNFUlJPUl9CVVJOX0FTU0VSVElPTl9CQURMWV9GT1JNQVRFRBAeEicKI0VSUk9SX01JTlRfQVNTRVJUSU9OX0JBRExZX0ZPUk1BVEVEEB8SLQopRVJST1JfQVNTSUdOTUVOVF9BU1NFUlRJT05fQkFETFlfRk9STUFURUQQIBIhCh1FUlJPUl9PTlRPTE9HWV9CQURMWV9GT1JNQVRFRBAhEicKI0VSUk9SX1dSQVBfQVNTRVJUSU9OX0JBRExZX0ZPUk1BVEVEECIqXgoLQ2xhaW1Gb3JtYXQSHAoYQ0xBSU1fRk9STUFUX1VOU1BFQ0lGSUVEEAASGAoUQ0xBSU1fRk9STUFUX0RFRkFVTFQQARIXChNDTEFJTV9GT1JNQVRfQlVOR0VFEAIqiAEKCVRva2VuVHlwZRIaChZUT0tFTl9UWVBFX1VOU1BFQ0lGSUVEEAASFAoQVE9LRU5fVFlQRV9FUkMyMBABEhUKEVRPS0VOX1RZUEVfRVJDNzIxEAISFgoSVE9LRU5fVFlQRV9FUkMxMTU1EAMSGgoWVE9LRU5fVFlQRV9OT05TVEFOREFSRBAEYgZwcm90bzM");
+export const file_cacti_satp_v02_common_message: GenFile =
+  /*@__PURE__*/
+  fileDesc(
+    "CiNjYWN0aS9zYXRwL3YwMi9jb21tb24vbWVzc2FnZS5wcm90bxIVY2FjdGkuc2F0cC52MDIuY29tbW9uIvwECg5UcmFuc2ZlckNsYWltcxIYChBkaWdpdGFsX2Fzc2V0X2lkGAEgASgJEhgKEGFzc2V0X3Byb2ZpbGVfaWQYAiABKAkSJQoddmVyaWZpZWRfb3JpZ2luYXRvcl9lbnRpdHlfaWQYAyABKAkSJgoedmVyaWZpZWRfYmVuZWZpY2lhcnlfZW50aXR5X2lkGAQgASgJEhkKEW9yaWdpbmF0b3JfcHVia2V5GAUgASgJEhoKEmJlbmVmaWNpYXJ5X3B1YmtleRgGIAEoCRIhChlzZW5kZXJfZ2F0ZXdheV9uZXR3b3JrX2lkGAcgASgJEiQKHHJlY2lwaWVudF9nYXRld2F5X25ldHdvcmtfaWQYCCABKAkSHQoVY2xpZW50X2dhdGV3YXlfcHVia2V5GAkgASgJEh0KFXNlcnZlcl9nYXRld2F5X3B1YmtleRgKIAEoCRIfChdzZW5kZXJfZ2F0ZXdheV9vd25lcl9pZBgLIAEoCRIhChlyZWNlaXZlcl9nYXRld2F5X293bmVyX2lkGAwgASgJEhMKC21heF9yZXRyaWVzGA0gASgNEhMKC21heF90aW1lb3V0GA4gASgEEh4KFmFtb3VudF9mcm9tX29yaWdpbmF0b3IYDyABKAkSHQoVYW1vdW50X3RvX2JlbmVmaWNpYXJ5GBAgASgJEj4KEHByb2Nlc3NfcG9saWNpZXMYESADKAsyJC5jYWN0aS5zYXRwLnYwMi5jb21tb24uUHJpdmFjeVBvbGljeRI8Cg5tZXJnZV9wb2xpY2llcxgSIAMoCzIkLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5Qcml2YWN5UG9saWN5IhYKFFRyYW5zZmVyQ2xhaW1zRm9ybWF0IjAKDVByaXZhY3lQb2xpY3kSDAoEbmFtZRgBIAEoCRIRCglhcmd1bWVudHMYAiADKAkiDQoLUGVybWlzc2lvbnMiEQoPU3Vic2VxdWVudENhbGxzIrgCCgdIaXN0b3J5EjgKDHRyYW5zYWN0aW9ucxgBIAMoCzIiLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5UcmFuc2FjdGlvbhJAChFhY3Rpb25fY2F0ZWdvcmllcxgCIAMoCzIlLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5BY3Rpb25DYXRlZ29yeRIOCgZvcmlnaW4YAyABKAkSEwoLZGVzdGluYXRpb24YBCABKAkSDwoHYmFsYW5jZRgFIAEoCRItCgZzdGF0dXMYBiABKA4yHS5jYWN0aS5zYXRwLnYwMi5jb21tb24uU1RBVFVTEkwKFmFwcGxpY2F0aW9uX3BhcmFtZXRlcnMYByABKAsyLC5jYWN0aS5zYXRwLnYwMi5jb21tb24uQXBwbGljYXRpb25QYXJhbWV0ZXJzIhAKDkFjdGlvbkNhdGVnb3J5Ig0KC1RyYW5zYWN0aW9uIhcKFUFwcGxpY2F0aW9uUGFyYW1ldGVycyKEBQoTTmV0d29ya0NhcGFiaWxpdGllcxIhChlzZW5kZXJfZ2F0ZXdheV9uZXR3b3JrX2lkGAEgASgJEkYKE3NpZ25hdHVyZV9hbGdvcml0aG0YAiABKA4yKS5jYWN0aS5zYXRwLnYwMi5jb21tb24uU2lnbmF0dXJlQWxnb3JpdGhtElEKHnN1cHBvcnRlZF9zaWduYXR1cmVfYWxnb3JpdGhtcxgDIAMoDjIpLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5TaWduYXR1cmVBbGdvcml0aG0SMgoJbG9ja190eXBlGAQgASgOMh8uY2FjdGkuc2F0cC52MDIuY29tbW9uLkxvY2tUeXBlEhwKFGxvY2tfZXhwaXJhdGlvbl90aW1lGAUgASgEEjcKC3Blcm1pc3Npb25zGAYgASgLMiIuY2FjdGkuc2F0cC52MDIuY29tbW9uLlBlcm1pc3Npb25zEhUKDWRldmVsb3Blcl91cm4YByABKAkSRAoSY3JlZGVudGlhbF9wcm9maWxlGAggASgOMiguY2FjdGkuc2F0cC52MDIuY29tbW9uLkNyZWRlbnRpYWxQcm9maWxlEhsKE2FwcGxpY2F0aW9uX3Byb2ZpbGUYCSABKAkSFwoPbG9nZ2luZ19wcm9maWxlGAogASgJEh4KFmFjY2Vzc19jb250cm9sX3Byb2ZpbGUYCyABKAkSQAoQc3Vic2VxdWVudF9jYWxscxgMIAEoCzImLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5TdWJzZXF1ZW50Q2FsbHMSLwoHaGlzdG9yeRgNIAMoCzIeLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5IaXN0b3J5IrYECgpDb21tb25TYXRwEg8KB3ZlcnNpb24YASABKAkSOAoMbWVzc2FnZV90eXBlGAIgASgOMiIuY2FjdGkuc2F0cC52MDIuY29tbW9uLk1lc3NhZ2VUeXBlEhIKCnNlc3Npb25faWQYAyABKAkSGwoTdHJhbnNmZXJfY29udGV4dF9pZBgEIAEoCRIXCg9zZXF1ZW5jZV9udW1iZXIYBSABKAQSFAoMcmVzb3VyY2VfdXJsGAYgASgJEj4KD2FjdGlvbl9yZXNwb25zZRgIIAEoCzIlLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5BY3Rpb25SZXNwb25zZRIYChBjcmVkZW50aWFsX2Jsb2NrGAogASgJEj4KD3BheWxvYWRfcHJvZmlsZRgLIAEoCzIlLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5QYXlsb2FkUHJvZmlsZRIvCgdwYXlsb2FkGA0gASgLMh4uY2FjdGkuc2F0cC52MDIuY29tbW9uLlBheWxvYWQSFAoMcGF5bG9hZF9oYXNoGA4gASgJEh0KFWNsaWVudF9nYXRld2F5X3B1YmtleRgPIAEoCRIdChVzZXJ2ZXJfZ2F0ZXdheV9wdWJrZXkYECABKAkSHQoVaGFzaF9wcmV2aW91c19tZXNzYWdlGBEgASgJEg0KBWVycm9yGBIgASgIEjAKCmVycm9yX2NvZGUYEyABKA4yHC5jYWN0aS5zYXRwLnYwMi5jb21tb24uRXJyb3IiEAoOQWN0aW9uUmVzcG9uc2UiYgoOUGF5bG9hZFByb2ZpbGUSOgoNYXNzZXRfcHJvZmlsZRgBIAEoCzIjLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5Bc3NldFByb2ZpbGUSFAoMY2FwYWJpbGl0aWVzGAIgASgJIrsCCgxBc3NldFByb2ZpbGUSDgoGaXNzdWVyGAEgASgJEhIKCmFzc2V0X2NvZGUYAiABKAkSFwoPYXNzZXRfY29kZV90eXBlGAMgASgJEhUKDWlzc3VhbmNlX2RhdGUYBCABKAkSFwoPZXhwaXJhdGlvbl9kYXRlGAUgASgJEh4KFnZlcmlmaWNhdGlvbl9lbmRfcG9pbnQYBiABKAkSGQoRZGlnaXRhbF9zaWduYXR1cmUYByABKAkSFwoPcHJvc3BlY3R1c19saW5rGAggASgJEhwKFGtleV9pbmZvcm1hdGlvbl9saW5rGAkgAygJEhAKCGtleXdvcmRzGAogAygJEh0KFXRyYW5zZmVyX3Jlc3RyaWN0aW9ucxgLIAMoCRIbChNsZWRnZXJfcmVxdWlyZW1lbnRzGAwgAygJIgkKB1BheWxvYWQiTgoYV3JhcEFzc2VydGlvbkNsYWltRm9ybWF0EjIKBmZvcm1hdBgBIAEoDjIiLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5DbGFpbUZvcm1hdCJOChhMb2NrQXNzZXJ0aW9uQ2xhaW1Gb3JtYXQSMgoGZm9ybWF0GAEgASgOMiIuY2FjdGkuc2F0cC52MDIuY29tbW9uLkNsYWltRm9ybWF0Ik4KGE1pbnRBc3NlcnRpb25DbGFpbUZvcm1hdBIyCgZmb3JtYXQYASABKA4yIi5jYWN0aS5zYXRwLnYwMi5jb21tb24uQ2xhaW1Gb3JtYXQiTgoYQnVybkFzc2VydGlvbkNsYWltRm9ybWF0EjIKBmZvcm1hdBgBIAEoDjIiLmNhY3RpLnNhdHAudjAyLmNvbW1vbi5DbGFpbUZvcm1hdCJUCh5Bc3NpZ25tZW50QXNzZXJ0aW9uQ2xhaW1Gb3JtYXQSMgoGZm9ybWF0GAEgASgOMiIuY2FjdGkuc2F0cC52MDIuY29tbW9uLkNsYWltRm9ybWF0IkcKEkxvY2tBc3NlcnRpb25DbGFpbRIPCgdyZWNlaXB0GAEgASgJEg0KBXByb29mGAIgASgJEhEKCXNpZ25hdHVyZRgDIAEoCSJHChJNaW50QXNzZXJ0aW9uQ2xhaW0SDwoHcmVjZWlwdBgBIAEoCRINCgVwcm9vZhgCIAEoCRIRCglzaWduYXR1cmUYAyABKAkiRwoSQnVybkFzc2VydGlvbkNsYWltEg8KB3JlY2VpcHQYASABKAkSDQoFcHJvb2YYAiABKAkSEQoJc2lnbmF0dXJlGAMgASgJIk0KGEFzc2lnbm1lbnRBc3NlcnRpb25DbGFpbRIPCgdyZWNlaXB0GAEgASgJEg0KBXByb29mGAIgASgJEhEKCXNpZ25hdHVyZRgDIAEoCSJHChJXcmFwQXNzZXJ0aW9uQ2xhaW0SDwoHcmVjZWlwdBgBIAEoCRINCgVwcm9vZhgCIAEoCRIRCglzaWduYXR1cmUYAyABKAki1wEKBUFzc2V0EhAKCHRva2VuX2lkGAEgASgJEjQKCnRva2VuX3R5cGUYAiABKA4yIC5jYWN0aS5zYXRwLnYwMi5jb21tb24uVG9rZW5UeXBlEg0KBW93bmVyGAMgASgJEg4KBmFtb3VudBgEIAEoBBIQCghvbnRvbG9neRgFIAEoCRIVCg1jb250cmFjdF9uYW1lGAcgASgJEhgKEGNvbnRyYWN0X2FkZHJlc3MYBiABKAkSDgoGbXNwX2lkGAggASgJEhQKDGNoYW5uZWxfbmFtZRgJIAEoCSpBCgZTVEFUVVMSFgoSU1RBVFVTX1VOU1BFQ0lGSUVEEAASDQoJU1RBVFVTX09LEAESEAoMU1RBVFVTX0VSUk9SEAIq9AYKC01lc3NhZ2VUeXBlEhwKGE1FU1NBR0VfVFlQRV9VTlNQRUNJRklFRBAAEiIKHk1FU1NBR0VfVFlQRV9QUkVfSU5JVF9QUk9QT1NBTBABEiEKHU1FU1NBR0VfVFlQRV9QUkVfSU5JVF9SRUNFSVBUEAISIAocTUVTU0FHRV9UWVBFX1BSRV9JTklUX1JFSkVDVBADEi4KKk1FU1NBR0VfVFlQRV9QUkVfVFJBTlNGRVJfQ09NTUVOQ0VfUkVRVUVTVBAEEi8KK01FU1NBR0VfVFlQRV9QUkVfVFJBTlNGRVJfQ09NTUVOQ0VfUkVTUE9OU0UQBRIeChpNRVNTQUdFX1RZUEVfSU5JVF9QUk9QT1NBTBAGEh0KGU1FU1NBR0VfVFlQRV9JTklUX1JFQ0VJUFQQBxIcChhNRVNTQUdFX1RZUEVfSU5JVF9SRUpFQ1QQCBIqCiZNRVNTQUdFX1RZUEVfVFJBTlNGRVJfQ09NTUVOQ0VfUkVRVUVTVBAJEisKJ01FU1NBR0VfVFlQRV9UUkFOU0ZFUl9DT01NRU5DRV9SRVNQT05TRRAKEhwKGE1FU1NBR0VfVFlQRV9MT0NLX0FTU0VSVBALEiIKHk1FU1NBR0VfVFlQRV9BU1NFUlRJT05fUkVDRUlQVBAMEh8KG01FU1NBR0VfVFlQRV9DT01NSVRfUFJFUEFSRRANEh0KGU1FU1NBR0VfVFlQRV9DT01NSVRfUkVBRFkQDhIdChlNRVNTQUdFX1RZUEVfQ09NTUlUX0ZJTkFMEA8SIQodTUVTU0FHRV9UWVBFX0FDS19DT01NSVRfRklOQUwQEBIpCiVNRVNTQUdFX1RZUEVfQ09NTUlUX1RSQU5TRkVSX0NPTVBMRVRFEBESJAogTUVTU0FHRV9UWVBFX05FV19TRVNTSU9OX1JFUVVFU1QQEhIlCiFNRVNTQUdFX1RZUEVfTkVXX1NFU1NJT05fUkVTUE9OU0UQExIqCiZNRVNTQUdFX1RZUEVfUFJFX1NBVFBfVFJBTlNGRVJfUkVRVUVTVBAUEisKJ01FU1NBR0VfVFlQRV9QUkVfU0FUUF9UUkFOU0ZFUl9SRVNQT05TRRAVEjIKLk1FU1NBR0VfVFlQRV9DT01NSVRfVFJBTlNGRVJfQ09NUExFVEVfUkVTUE9OU0UQFiqPAQoRQ3JlZGVudGlhbFByb2ZpbGUSIgoeQ1JFREVOVElBTF9QUk9GSUxFX1VOU1BFQ0lGSUVEEAASGwoXQ1JFREVOVElBTF9QUk9GSUxFX1NBTUwQARIcChhDUkVERU5USUFMX1BST0ZJTEVfT0FVVEgQAhIbChdDUkVERU5USUFMX1BST0ZJTEVfWDUwORADKvMBChJTaWduYXR1cmVBbGdvcml0aG0SIwofU0lHTkFUVVJFX0FMR09SSVRITV9VTlNQRUNJRklFRBAAEhsKF1NJR05BVFVSRV9BTEdPUklUSE1fUlNBEAESHQoZU0lHTkFUVVJFX0FMR09SSVRITV9FQ0RTQRACEhsKF1NJR05BVFVSRV9BTEdPUklUSE1fRFNBEAMSHAoYU0lHTkFUVVJFX0FMR09SSVRITV9ITUFDEAQSIgoeU0lHTkFUVVJFX0FMR09SSVRITV9SU0FTU0FfUFNTEAUSHQoZU0lHTkFUVVJFX0FMR09SSVRITV9FRERTQRAGKrwBCghMb2NrVHlwZRIZChVMT0NLX1RZUEVfVU5TUEVDSUZJRUQQABIUChBMT0NLX1RZUEVfRkFVQ0VUEAESFgoSTE9DS19UWVBFX1RJTUVMT0NLEAISFgoSTE9DS19UWVBFX0hBU0hMT0NLEAMSGgoWTE9DS19UWVBFX0hBU0hMT0NLVElNRRAEEhgKFExPQ0tfVFlQRV9NVUxUSUNMQUlNEAUSGQoVTE9DS19UWVBFX0RFU1RST1lCVVJOEAYqjQoKBUVycm9yEhUKEUVSUk9SX1VOU1BFQ0lGSUVEEAASIAocRVJST1JfQkFETFlfRk9STUFURURfTUVTU0FHRRABEh0KGUVSUk9SX0lOQ09SUkVDVF9QQVJBTUVURVIQAhIWChJFUlJPUl9BQ0tfTUlTTUFUQ0gQAxImCiJFUlJPUl9CQURMWV9GT1JNQVRFRF9NRVNTQUdFX0NMQUlNEAQSLgoqRVJST1JfQkFETFlfRk9STUFURURfTUVTU0FHRV9CQURfU0lHTkFUVVJFEAUSNQoxRVJST1JfQkFETFlfRk9STUFURURfTUVTU0FHRV9XUk9OR19UUkFOU0FDVElPTl9JRBAGEjUKMUVSUk9SX0JBRExZX0ZPUk1BVEVEX01FU1NBR0VfTUlTTUFUQ0hfSEFTSF9WQUxVRVMQBxIpCiVFUlJPUl9FWFBJUkVEX1NJR05JTkdfS0VZX0NFUlRJRklDQVRFEAgSFwoTRVJST1JfRVhQSVJFRF9DTEFJTRAJEiEKHUVSUk9SX01FU1NBR0VfT1VUX09GX1NFUVVFTkNFEAoSGwoXRVJST1JfU0VTU0lPTl9OT1RfRk9VTkQQCxIeChpFUlJPUl9TRVNTSU9OX0lEX05PVF9GT1VORBAMEh4KGkVSUk9SX1BVQkxJQ19LRVlfTk9UX0ZPVU5EEA0SLQopRVJST1JfU0VOREVSX0dBVEVXQVlfTkVUV09SS19JRF9OT1RfRk9VTkQQDhIkCiBFUlJPUl9DT01NT05fQk9EWV9CQURMWV9GT1JNQVRFRBAPEhwKGEVSUk9SX1NFU1NJT05fTUlTU19NQVRDSBAQEikKJUVSUk9SX1NFU1NJT05fREFUQV9MT0FERURfSU5DT1JSRUNUTFkQERIgChxFUlJPUl9TRVNTSU9OX0RBVEFfTk9UX0ZPVU5EEBISGwoXRVJST1JfU0VTU0lPTl9DT01QTEVURUQQExIbChdFUlJPUl9NSVNTSU5HX1BBUkFNRVRFUhAUEiQKIEVSUk9SX1NBVFBfVkVSU0lPTl9OT1RfU1VQUE9SVEVEEBUSJwojRVJST1JfU0lHTkFUVVJFX1ZFUklGSUNBVElPTl9GQUlMRUQQFhIbChdFUlJPUl9ETFRfTk9UX1NVUFBPUlRFRBAXEhkKFUVSUk9SX0hBU0hfTUlTU19NQVRDSBAYEh8KG0VSUk9SX0NPTlRFWFRfSURfTUlTU19NQVRDSBAZEhgKFEVSUk9SX0JSSURHRV9QUk9CTEVNEBoSJwojRVJST1JfTE9DS19BU1NFUlRJT05fQkFETFlfRk9STUFURUQQGxItCilFUlJPUl9MT0NLX0FTU0VSVElPTl9DTEFJTV9GT1JNQVRfTUlTU0lORxAcEikKJUVSUk9SX0xPQ0tfQVNTRVJUSU9OX0VYUElSQVRJT05fRVJST1IQHRInCiNFUlJPUl9CVVJOX0FTU0VSVElPTl9CQURMWV9GT1JNQVRFRBAeEicKI0VSUk9SX01JTlRfQVNTRVJUSU9OX0JBRExZX0ZPUk1BVEVEEB8SLQopRVJST1JfQVNTSUdOTUVOVF9BU1NFUlRJT05fQkFETFlfRk9STUFURUQQIBIhCh1FUlJPUl9PTlRPTE9HWV9CQURMWV9GT1JNQVRFRBAhEicKI0VSUk9SX1dSQVBfQVNTRVJUSU9OX0JBRExZX0ZPUk1BVEVEECIqXgoLQ2xhaW1Gb3JtYXQSHAoYQ0xBSU1fRk9STUFUX1VOU1BFQ0lGSUVEEAASGAoUQ0xBSU1fRk9STUFUX0RFRkFVTFQQARIXChNDTEFJTV9GT1JNQVRfQlVOR0VFEAIqiAEKCVRva2VuVHlwZRIaChZUT0tFTl9UWVBFX1VOU1BFQ0lGSUVEEAASFAoQVE9LRU5fVFlQRV9FUkMyMBABEhUKEVRPS0VOX1RZUEVfRVJDNzIxEAISFgoSVE9LRU5fVFlQRV9FUkMxMTU1EAMSGgoWVE9LRU5fVFlQRV9OT05TVEFOREFSRBAEYgZwcm90bzM",
+  );
 
 /**
  * @generated from message cacti.satp.v02.common.TransferClaims
@@ -111,20 +118,22 @@ export type TransferClaims = Message<"cacti.satp.v02.common.TransferClaims"> & {
  * Describes the message cacti.satp.v02.common.TransferClaims.
  * Use `create(TransferClaimsSchema)` to create a new message.
  */
-export const TransferClaimsSchema: GenMessage<TransferClaims> = /*@__PURE__*/
+export const TransferClaimsSchema: GenMessage<TransferClaims> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 0);
 
 /**
  * @generated from message cacti.satp.v02.common.TransferClaimsFormat
  */
-export type TransferClaimsFormat = Message<"cacti.satp.v02.common.TransferClaimsFormat"> & {
-};
+export type TransferClaimsFormat =
+  Message<"cacti.satp.v02.common.TransferClaimsFormat"> & {};
 
 /**
  * Describes the message cacti.satp.v02.common.TransferClaimsFormat.
  * Use `create(TransferClaimsFormatSchema)` to create a new message.
  */
-export const TransferClaimsFormatSchema: GenMessage<TransferClaimsFormat> = /*@__PURE__*/
+export const TransferClaimsFormatSchema: GenMessage<TransferClaimsFormat> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 1);
 
 /**
@@ -146,33 +155,35 @@ export type PrivacyPolicy = Message<"cacti.satp.v02.common.PrivacyPolicy"> & {
  * Describes the message cacti.satp.v02.common.PrivacyPolicy.
  * Use `create(PrivacyPolicySchema)` to create a new message.
  */
-export const PrivacyPolicySchema: GenMessage<PrivacyPolicy> = /*@__PURE__*/
+export const PrivacyPolicySchema: GenMessage<PrivacyPolicy> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 2);
 
 /**
  * @generated from message cacti.satp.v02.common.Permissions
  */
-export type Permissions = Message<"cacti.satp.v02.common.Permissions"> & {
-};
+export type Permissions = Message<"cacti.satp.v02.common.Permissions"> & {};
 
 /**
  * Describes the message cacti.satp.v02.common.Permissions.
  * Use `create(PermissionsSchema)` to create a new message.
  */
-export const PermissionsSchema: GenMessage<Permissions> = /*@__PURE__*/
+export const PermissionsSchema: GenMessage<Permissions> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 3);
 
 /**
  * @generated from message cacti.satp.v02.common.SubsequentCalls
  */
-export type SubsequentCalls = Message<"cacti.satp.v02.common.SubsequentCalls"> & {
-};
+export type SubsequentCalls =
+  Message<"cacti.satp.v02.common.SubsequentCalls"> & {};
 
 /**
  * Describes the message cacti.satp.v02.common.SubsequentCalls.
  * Use `create(SubsequentCallsSchema)` to create a new message.
  */
-export const SubsequentCallsSchema: GenMessage<SubsequentCalls> = /*@__PURE__*/
+export const SubsequentCallsSchema: GenMessage<SubsequentCalls> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 4);
 
 /**
@@ -219,123 +230,128 @@ export type History = Message<"cacti.satp.v02.common.History"> & {
  * Describes the message cacti.satp.v02.common.History.
  * Use `create(HistorySchema)` to create a new message.
  */
-export const HistorySchema: GenMessage<History> = /*@__PURE__*/
+export const HistorySchema: GenMessage<History> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 5);
 
 /**
  * @generated from message cacti.satp.v02.common.ActionCategory
  */
-export type ActionCategory = Message<"cacti.satp.v02.common.ActionCategory"> & {
-};
+export type ActionCategory =
+  Message<"cacti.satp.v02.common.ActionCategory"> & {};
 
 /**
  * Describes the message cacti.satp.v02.common.ActionCategory.
  * Use `create(ActionCategorySchema)` to create a new message.
  */
-export const ActionCategorySchema: GenMessage<ActionCategory> = /*@__PURE__*/
+export const ActionCategorySchema: GenMessage<ActionCategory> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 6);
 
 /**
  * @generated from message cacti.satp.v02.common.Transaction
  */
-export type Transaction = Message<"cacti.satp.v02.common.Transaction"> & {
-};
+export type Transaction = Message<"cacti.satp.v02.common.Transaction"> & {};
 
 /**
  * Describes the message cacti.satp.v02.common.Transaction.
  * Use `create(TransactionSchema)` to create a new message.
  */
-export const TransactionSchema: GenMessage<Transaction> = /*@__PURE__*/
+export const TransactionSchema: GenMessage<Transaction> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 7);
 
 /**
  * @generated from message cacti.satp.v02.common.ApplicationParameters
  */
-export type ApplicationParameters = Message<"cacti.satp.v02.common.ApplicationParameters"> & {
-};
+export type ApplicationParameters =
+  Message<"cacti.satp.v02.common.ApplicationParameters"> & {};
 
 /**
  * Describes the message cacti.satp.v02.common.ApplicationParameters.
  * Use `create(ApplicationParametersSchema)` to create a new message.
  */
-export const ApplicationParametersSchema: GenMessage<ApplicationParameters> = /*@__PURE__*/
+export const ApplicationParametersSchema: GenMessage<ApplicationParameters> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 8);
 
 /**
  * @generated from message cacti.satp.v02.common.NetworkCapabilities
  */
-export type NetworkCapabilities = Message<"cacti.satp.v02.common.NetworkCapabilities"> & {
-  /**
-   * @generated from field: string sender_gateway_network_id = 1;
-   */
-  senderGatewayNetworkId: string;
+export type NetworkCapabilities =
+  Message<"cacti.satp.v02.common.NetworkCapabilities"> & {
+    /**
+     * @generated from field: string sender_gateway_network_id = 1;
+     */
+    senderGatewayNetworkId: string;
 
-  /**
-   * @generated from field: cacti.satp.v02.common.SignatureAlgorithm signature_algorithm = 2;
-   */
-  signatureAlgorithm: SignatureAlgorithm;
+    /**
+     * @generated from field: cacti.satp.v02.common.SignatureAlgorithm signature_algorithm = 2;
+     */
+    signatureAlgorithm: SignatureAlgorithm;
 
-  /**
-   * @generated from field: repeated cacti.satp.v02.common.SignatureAlgorithm supported_signature_algorithms = 3;
-   */
-  supportedSignatureAlgorithms: SignatureAlgorithm[];
+    /**
+     * @generated from field: repeated cacti.satp.v02.common.SignatureAlgorithm supported_signature_algorithms = 3;
+     */
+    supportedSignatureAlgorithms: SignatureAlgorithm[];
 
-  /**
-   * @generated from field: cacti.satp.v02.common.LockType lock_type = 4;
-   */
-  lockType: LockType;
+    /**
+     * @generated from field: cacti.satp.v02.common.LockType lock_type = 4;
+     */
+    lockType: LockType;
 
-  /**
-   * @generated from field: uint64 lock_expiration_time = 5;
-   */
-  lockExpirationTime: bigint;
+    /**
+     * @generated from field: uint64 lock_expiration_time = 5;
+     */
+    lockExpirationTime: bigint;
 
-  /**
-   * @generated from field: cacti.satp.v02.common.Permissions permissions = 6;
-   */
-  permissions?: Permissions;
+    /**
+     * @generated from field: cacti.satp.v02.common.Permissions permissions = 6;
+     */
+    permissions?: Permissions;
 
-  /**
-   * @generated from field: string developer_urn = 7;
-   */
-  developerUrn: string;
+    /**
+     * @generated from field: string developer_urn = 7;
+     */
+    developerUrn: string;
 
-  /**
-   * @generated from field: cacti.satp.v02.common.CredentialProfile credential_profile = 8;
-   */
-  credentialProfile: CredentialProfile;
+    /**
+     * @generated from field: cacti.satp.v02.common.CredentialProfile credential_profile = 8;
+     */
+    credentialProfile: CredentialProfile;
 
-  /**
-   * @generated from field: string application_profile = 9;
-   */
-  applicationProfile: string;
+    /**
+     * @generated from field: string application_profile = 9;
+     */
+    applicationProfile: string;
 
-  /**
-   * @generated from field: string logging_profile = 10;
-   */
-  loggingProfile: string;
+    /**
+     * @generated from field: string logging_profile = 10;
+     */
+    loggingProfile: string;
 
-  /**
-   * @generated from field: string access_control_profile = 11;
-   */
-  accessControlProfile: string;
+    /**
+     * @generated from field: string access_control_profile = 11;
+     */
+    accessControlProfile: string;
 
-  /**
-   * @generated from field: cacti.satp.v02.common.SubsequentCalls subsequent_calls = 12;
-   */
-  subsequentCalls?: SubsequentCalls;
+    /**
+     * @generated from field: cacti.satp.v02.common.SubsequentCalls subsequent_calls = 12;
+     */
+    subsequentCalls?: SubsequentCalls;
 
-  /**
-   * @generated from field: repeated cacti.satp.v02.common.History history = 13;
-   */
-  history: History[];
-};
+    /**
+     * @generated from field: repeated cacti.satp.v02.common.History history = 13;
+     */
+    history: History[];
+  };
 
 /**
  * Describes the message cacti.satp.v02.common.NetworkCapabilities.
  * Use `create(NetworkCapabilitiesSchema)` to create a new message.
  */
-export const NetworkCapabilitiesSchema: GenMessage<NetworkCapabilities> = /*@__PURE__*/
+export const NetworkCapabilitiesSchema: GenMessage<NetworkCapabilities> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 9);
 
 /**
@@ -427,20 +443,22 @@ export type CommonSatp = Message<"cacti.satp.v02.common.CommonSatp"> & {
  * Describes the message cacti.satp.v02.common.CommonSatp.
  * Use `create(CommonSatpSchema)` to create a new message.
  */
-export const CommonSatpSchema: GenMessage<CommonSatp> = /*@__PURE__*/
+export const CommonSatpSchema: GenMessage<CommonSatp> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 10);
 
 /**
  * @generated from message cacti.satp.v02.common.ActionResponse
  */
-export type ActionResponse = Message<"cacti.satp.v02.common.ActionResponse"> & {
-};
+export type ActionResponse =
+  Message<"cacti.satp.v02.common.ActionResponse"> & {};
 
 /**
  * Describes the message cacti.satp.v02.common.ActionResponse.
  * Use `create(ActionResponseSchema)` to create a new message.
  */
-export const ActionResponseSchema: GenMessage<ActionResponse> = /*@__PURE__*/
+export const ActionResponseSchema: GenMessage<ActionResponse> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 11);
 
 /**
@@ -462,7 +480,8 @@ export type PayloadProfile = Message<"cacti.satp.v02.common.PayloadProfile"> & {
  * Describes the message cacti.satp.v02.common.PayloadProfile.
  * Use `create(PayloadProfileSchema)` to create a new message.
  */
-export const PayloadProfileSchema: GenMessage<PayloadProfile> = /*@__PURE__*/
+export const PayloadProfileSchema: GenMessage<PayloadProfile> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 12);
 
 /**
@@ -534,240 +553,261 @@ export type AssetProfile = Message<"cacti.satp.v02.common.AssetProfile"> & {
  * Describes the message cacti.satp.v02.common.AssetProfile.
  * Use `create(AssetProfileSchema)` to create a new message.
  */
-export const AssetProfileSchema: GenMessage<AssetProfile> = /*@__PURE__*/
+export const AssetProfileSchema: GenMessage<AssetProfile> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 13);
 
 /**
  * @generated from message cacti.satp.v02.common.Payload
  */
-export type Payload = Message<"cacti.satp.v02.common.Payload"> & {
-};
+export type Payload = Message<"cacti.satp.v02.common.Payload"> & {};
 
 /**
  * Describes the message cacti.satp.v02.common.Payload.
  * Use `create(PayloadSchema)` to create a new message.
  */
-export const PayloadSchema: GenMessage<Payload> = /*@__PURE__*/
+export const PayloadSchema: GenMessage<Payload> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 14);
 
 /**
  * @generated from message cacti.satp.v02.common.WrapAssertionClaimFormat
  */
-export type WrapAssertionClaimFormat = Message<"cacti.satp.v02.common.WrapAssertionClaimFormat"> & {
-  /**
-   * @generated from field: cacti.satp.v02.common.ClaimFormat format = 1;
-   */
-  format: ClaimFormat;
-};
+export type WrapAssertionClaimFormat =
+  Message<"cacti.satp.v02.common.WrapAssertionClaimFormat"> & {
+    /**
+     * @generated from field: cacti.satp.v02.common.ClaimFormat format = 1;
+     */
+    format: ClaimFormat;
+  };
 
 /**
  * Describes the message cacti.satp.v02.common.WrapAssertionClaimFormat.
  * Use `create(WrapAssertionClaimFormatSchema)` to create a new message.
  */
-export const WrapAssertionClaimFormatSchema: GenMessage<WrapAssertionClaimFormat> = /*@__PURE__*/
+export const WrapAssertionClaimFormatSchema: GenMessage<WrapAssertionClaimFormat> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 15);
 
 /**
  * @generated from message cacti.satp.v02.common.LockAssertionClaimFormat
  */
-export type LockAssertionClaimFormat = Message<"cacti.satp.v02.common.LockAssertionClaimFormat"> & {
-  /**
-   * @generated from field: cacti.satp.v02.common.ClaimFormat format = 1;
-   */
-  format: ClaimFormat;
-};
+export type LockAssertionClaimFormat =
+  Message<"cacti.satp.v02.common.LockAssertionClaimFormat"> & {
+    /**
+     * @generated from field: cacti.satp.v02.common.ClaimFormat format = 1;
+     */
+    format: ClaimFormat;
+  };
 
 /**
  * Describes the message cacti.satp.v02.common.LockAssertionClaimFormat.
  * Use `create(LockAssertionClaimFormatSchema)` to create a new message.
  */
-export const LockAssertionClaimFormatSchema: GenMessage<LockAssertionClaimFormat> = /*@__PURE__*/
+export const LockAssertionClaimFormatSchema: GenMessage<LockAssertionClaimFormat> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 16);
 
 /**
  * @generated from message cacti.satp.v02.common.MintAssertionClaimFormat
  */
-export type MintAssertionClaimFormat = Message<"cacti.satp.v02.common.MintAssertionClaimFormat"> & {
-  /**
-   * @generated from field: cacti.satp.v02.common.ClaimFormat format = 1;
-   */
-  format: ClaimFormat;
-};
+export type MintAssertionClaimFormat =
+  Message<"cacti.satp.v02.common.MintAssertionClaimFormat"> & {
+    /**
+     * @generated from field: cacti.satp.v02.common.ClaimFormat format = 1;
+     */
+    format: ClaimFormat;
+  };
 
 /**
  * Describes the message cacti.satp.v02.common.MintAssertionClaimFormat.
  * Use `create(MintAssertionClaimFormatSchema)` to create a new message.
  */
-export const MintAssertionClaimFormatSchema: GenMessage<MintAssertionClaimFormat> = /*@__PURE__*/
+export const MintAssertionClaimFormatSchema: GenMessage<MintAssertionClaimFormat> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 17);
 
 /**
  * @generated from message cacti.satp.v02.common.BurnAssertionClaimFormat
  */
-export type BurnAssertionClaimFormat = Message<"cacti.satp.v02.common.BurnAssertionClaimFormat"> & {
-  /**
-   * @generated from field: cacti.satp.v02.common.ClaimFormat format = 1;
-   */
-  format: ClaimFormat;
-};
+export type BurnAssertionClaimFormat =
+  Message<"cacti.satp.v02.common.BurnAssertionClaimFormat"> & {
+    /**
+     * @generated from field: cacti.satp.v02.common.ClaimFormat format = 1;
+     */
+    format: ClaimFormat;
+  };
 
 /**
  * Describes the message cacti.satp.v02.common.BurnAssertionClaimFormat.
  * Use `create(BurnAssertionClaimFormatSchema)` to create a new message.
  */
-export const BurnAssertionClaimFormatSchema: GenMessage<BurnAssertionClaimFormat> = /*@__PURE__*/
+export const BurnAssertionClaimFormatSchema: GenMessage<BurnAssertionClaimFormat> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 18);
 
 /**
  * @generated from message cacti.satp.v02.common.AssignmentAssertionClaimFormat
  */
-export type AssignmentAssertionClaimFormat = Message<"cacti.satp.v02.common.AssignmentAssertionClaimFormat"> & {
-  /**
-   * @generated from field: cacti.satp.v02.common.ClaimFormat format = 1;
-   */
-  format: ClaimFormat;
-};
+export type AssignmentAssertionClaimFormat =
+  Message<"cacti.satp.v02.common.AssignmentAssertionClaimFormat"> & {
+    /**
+     * @generated from field: cacti.satp.v02.common.ClaimFormat format = 1;
+     */
+    format: ClaimFormat;
+  };
 
 /**
  * Describes the message cacti.satp.v02.common.AssignmentAssertionClaimFormat.
  * Use `create(AssignmentAssertionClaimFormatSchema)` to create a new message.
  */
-export const AssignmentAssertionClaimFormatSchema: GenMessage<AssignmentAssertionClaimFormat> = /*@__PURE__*/
+export const AssignmentAssertionClaimFormatSchema: GenMessage<AssignmentAssertionClaimFormat> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 19);
 
 /**
  * @generated from message cacti.satp.v02.common.LockAssertionClaim
  */
-export type LockAssertionClaim = Message<"cacti.satp.v02.common.LockAssertionClaim"> & {
-  /**
-   * @generated from field: string receipt = 1;
-   */
-  receipt: string;
+export type LockAssertionClaim =
+  Message<"cacti.satp.v02.common.LockAssertionClaim"> & {
+    /**
+     * @generated from field: string receipt = 1;
+     */
+    receipt: string;
 
-  /**
-   * @generated from field: string proof = 2;
-   */
-  proof: string;
+    /**
+     * @generated from field: string proof = 2;
+     */
+    proof: string;
 
-  /**
-   * @generated from field: string signature = 3;
-   */
-  signature: string;
-};
+    /**
+     * @generated from field: string signature = 3;
+     */
+    signature: string;
+  };
 
 /**
  * Describes the message cacti.satp.v02.common.LockAssertionClaim.
  * Use `create(LockAssertionClaimSchema)` to create a new message.
  */
-export const LockAssertionClaimSchema: GenMessage<LockAssertionClaim> = /*@__PURE__*/
+export const LockAssertionClaimSchema: GenMessage<LockAssertionClaim> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 20);
 
 /**
  * @generated from message cacti.satp.v02.common.MintAssertionClaim
  */
-export type MintAssertionClaim = Message<"cacti.satp.v02.common.MintAssertionClaim"> & {
-  /**
-   * @generated from field: string receipt = 1;
-   */
-  receipt: string;
+export type MintAssertionClaim =
+  Message<"cacti.satp.v02.common.MintAssertionClaim"> & {
+    /**
+     * @generated from field: string receipt = 1;
+     */
+    receipt: string;
 
-  /**
-   * @generated from field: string proof = 2;
-   */
-  proof: string;
+    /**
+     * @generated from field: string proof = 2;
+     */
+    proof: string;
 
-  /**
-   * @generated from field: string signature = 3;
-   */
-  signature: string;
-};
+    /**
+     * @generated from field: string signature = 3;
+     */
+    signature: string;
+  };
 
 /**
  * Describes the message cacti.satp.v02.common.MintAssertionClaim.
  * Use `create(MintAssertionClaimSchema)` to create a new message.
  */
-export const MintAssertionClaimSchema: GenMessage<MintAssertionClaim> = /*@__PURE__*/
+export const MintAssertionClaimSchema: GenMessage<MintAssertionClaim> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 21);
 
 /**
  * @generated from message cacti.satp.v02.common.BurnAssertionClaim
  */
-export type BurnAssertionClaim = Message<"cacti.satp.v02.common.BurnAssertionClaim"> & {
-  /**
-   * @generated from field: string receipt = 1;
-   */
-  receipt: string;
+export type BurnAssertionClaim =
+  Message<"cacti.satp.v02.common.BurnAssertionClaim"> & {
+    /**
+     * @generated from field: string receipt = 1;
+     */
+    receipt: string;
 
-  /**
-   * @generated from field: string proof = 2;
-   */
-  proof: string;
+    /**
+     * @generated from field: string proof = 2;
+     */
+    proof: string;
 
-  /**
-   * @generated from field: string signature = 3;
-   */
-  signature: string;
-};
+    /**
+     * @generated from field: string signature = 3;
+     */
+    signature: string;
+  };
 
 /**
  * Describes the message cacti.satp.v02.common.BurnAssertionClaim.
  * Use `create(BurnAssertionClaimSchema)` to create a new message.
  */
-export const BurnAssertionClaimSchema: GenMessage<BurnAssertionClaim> = /*@__PURE__*/
+export const BurnAssertionClaimSchema: GenMessage<BurnAssertionClaim> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 22);
 
 /**
  * @generated from message cacti.satp.v02.common.AssignmentAssertionClaim
  */
-export type AssignmentAssertionClaim = Message<"cacti.satp.v02.common.AssignmentAssertionClaim"> & {
-  /**
-   * @generated from field: string receipt = 1;
-   */
-  receipt: string;
+export type AssignmentAssertionClaim =
+  Message<"cacti.satp.v02.common.AssignmentAssertionClaim"> & {
+    /**
+     * @generated from field: string receipt = 1;
+     */
+    receipt: string;
 
-  /**
-   * @generated from field: string proof = 2;
-   */
-  proof: string;
+    /**
+     * @generated from field: string proof = 2;
+     */
+    proof: string;
 
-  /**
-   * @generated from field: string signature = 3;
-   */
-  signature: string;
-};
+    /**
+     * @generated from field: string signature = 3;
+     */
+    signature: string;
+  };
 
 /**
  * Describes the message cacti.satp.v02.common.AssignmentAssertionClaim.
  * Use `create(AssignmentAssertionClaimSchema)` to create a new message.
  */
-export const AssignmentAssertionClaimSchema: GenMessage<AssignmentAssertionClaim> = /*@__PURE__*/
+export const AssignmentAssertionClaimSchema: GenMessage<AssignmentAssertionClaim> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 23);
 
 /**
  * @generated from message cacti.satp.v02.common.WrapAssertionClaim
  */
-export type WrapAssertionClaim = Message<"cacti.satp.v02.common.WrapAssertionClaim"> & {
-  /**
-   * @generated from field: string receipt = 1;
-   */
-  receipt: string;
+export type WrapAssertionClaim =
+  Message<"cacti.satp.v02.common.WrapAssertionClaim"> & {
+    /**
+     * @generated from field: string receipt = 1;
+     */
+    receipt: string;
 
-  /**
-   * @generated from field: string proof = 2;
-   */
-  proof: string;
+    /**
+     * @generated from field: string proof = 2;
+     */
+    proof: string;
 
-  /**
-   * @generated from field: string signature = 3;
-   */
-  signature: string;
-};
+    /**
+     * @generated from field: string signature = 3;
+     */
+    signature: string;
+  };
 
 /**
  * Describes the message cacti.satp.v02.common.WrapAssertionClaim.
  * Use `create(WrapAssertionClaimSchema)` to create a new message.
  */
-export const WrapAssertionClaimSchema: GenMessage<WrapAssertionClaim> = /*@__PURE__*/
+export const WrapAssertionClaimSchema: GenMessage<WrapAssertionClaim> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 24);
 
 /**
@@ -828,7 +868,8 @@ export type Asset = Message<"cacti.satp.v02.common.Asset"> & {
  * Describes the message cacti.satp.v02.common.Asset.
  * Use `create(AssetSchema)` to create a new message.
  */
-export const AssetSchema: GenMessage<Asset> = /*@__PURE__*/
+export const AssetSchema: GenMessage<Asset> =
+  /*@__PURE__*/
   messageDesc(file_cacti_satp_v02_common_message, 25);
 
 /**
@@ -854,7 +895,8 @@ export enum STATUS {
 /**
  * Describes the enum cacti.satp.v02.common.STATUS.
  */
-export const STATUSSchema: GenEnum<STATUS> = /*@__PURE__*/
+export const STATUSSchema: GenEnum<STATUS> =
+  /*@__PURE__*/
   enumDesc(file_cacti_satp_v02_common_message, 0);
 
 /**
@@ -980,7 +1022,8 @@ export enum MessageType {
 /**
  * Describes the enum cacti.satp.v02.common.MessageType.
  */
-export const MessageTypeSchema: GenEnum<MessageType> = /*@__PURE__*/
+export const MessageTypeSchema: GenEnum<MessageType> =
+  /*@__PURE__*/
   enumDesc(file_cacti_satp_v02_common_message, 1);
 
 /**
@@ -1011,7 +1054,8 @@ export enum CredentialProfile {
 /**
  * Describes the enum cacti.satp.v02.common.CredentialProfile.
  */
-export const CredentialProfileSchema: GenEnum<CredentialProfile> = /*@__PURE__*/
+export const CredentialProfileSchema: GenEnum<CredentialProfile> =
+  /*@__PURE__*/
   enumDesc(file_cacti_satp_v02_common_message, 2);
 
 /**
@@ -1057,7 +1101,8 @@ export enum SignatureAlgorithm {
 /**
  * Describes the enum cacti.satp.v02.common.SignatureAlgorithm.
  */
-export const SignatureAlgorithmSchema: GenEnum<SignatureAlgorithm> = /*@__PURE__*/
+export const SignatureAlgorithmSchema: GenEnum<SignatureAlgorithm> =
+  /*@__PURE__*/
   enumDesc(file_cacti_satp_v02_common_message, 3);
 
 /**
@@ -1103,7 +1148,8 @@ export enum LockType {
 /**
  * Describes the enum cacti.satp.v02.common.LockType.
  */
-export const LockTypeSchema: GenEnum<LockType> = /*@__PURE__*/
+export const LockTypeSchema: GenEnum<LockType> =
+  /*@__PURE__*/
   enumDesc(file_cacti_satp_v02_common_message, 4);
 
 /**
@@ -1289,7 +1335,8 @@ export enum Error {
 /**
  * Describes the enum cacti.satp.v02.common.Error.
  */
-export const ErrorSchema: GenEnum<Error> = /*@__PURE__*/
+export const ErrorSchema: GenEnum<Error> =
+  /*@__PURE__*/
   enumDesc(file_cacti_satp_v02_common_message, 5);
 
 /**
@@ -1315,7 +1362,8 @@ export enum ClaimFormat {
 /**
  * Describes the enum cacti.satp.v02.common.ClaimFormat.
  */
-export const ClaimFormatSchema: GenEnum<ClaimFormat> = /*@__PURE__*/
+export const ClaimFormatSchema: GenEnum<ClaimFormat> =
+  /*@__PURE__*/
   enumDesc(file_cacti_satp_v02_common_message, 6);
 
 /**
@@ -1351,6 +1399,6 @@ export enum TokenType {
 /**
  * Describes the enum cacti.satp.v02.common.TokenType.
  */
-export const TokenTypeSchema: GenEnum<TokenType> = /*@__PURE__*/
+export const TokenTypeSchema: GenEnum<TokenType> =
+  /*@__PURE__*/
   enumDesc(file_cacti_satp_v02_common_message, 7);
-

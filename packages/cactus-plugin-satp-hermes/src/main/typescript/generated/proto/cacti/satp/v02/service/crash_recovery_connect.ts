@@ -3,7 +3,14 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { RecoverRequest, RecoverResponse, RecoverSuccessRequest, RecoverSuccessResponse, RollbackRequest, RollbackResponse } from "./crash_recovery_pb.js";
+import {
+  RecoverRequest,
+  RecoverResponse,
+  RecoverSuccessRequest,
+  RecoverSuccessResponse,
+  RollbackRequest,
+  RollbackResponse,
+} from "./crash_recovery_pb.js";
 import { MethodKind } from "@bufbuild/protobuf";
 
 /**
@@ -39,6 +46,5 @@ export const CrashRecoveryService = {
       O: RollbackResponse,
       kind: MethodKind.Unary,
     },
-  }
+  },
 } as const;
-
