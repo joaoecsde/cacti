@@ -21,7 +21,7 @@
   },
   "contributors": [
     {
-      "name": "Andre Augusto",
+      "name": "André Augusto",
       "email": "andre.augusto@tecnico.ulisboa.pt",
       "url": "https://github.com/AndreAugusto11"
     },
@@ -78,8 +78,8 @@
     "generate-sdk:typescript-axios-bol": "yarn bundle-openapi-yaml && yarn bundle-openapi-json && openapi-generator-cli generate -i ./src/main/yml/bol/openapi-blo-bundled.yml -g typescript-axios -o ./src/main/typescript/generated/gateway-client/typescript-axios/ --reserved-words-mappings protected=protected --enable-post-process-file",
     "lint": "run-p 'lint:*'",
     "lint-code": "run-s format:eslint format:prettier",
-    "format:eslint": "eslint './src/**/*.ts' --quiet --fix",
-    "format:prettier": "prettier --write --config ../../.prettierrc.js \"**/{openapi.json,*.ts,*.js}\"",
+    "format:eslint": "eslint '**/*.{js,ts}' --quiet --fix --ignore-path .eslintignore",
+    "format:prettier": "prettier --write --config ../../.prettierrc.js --ignore-path .prettierignore \"**/{openapi.json,*.ts,*.js}\"",
     "lint:oapi": "vacuum lint -d -e ./src/main/yml/bol/openapi-blo-bundled.yml",
     "lint:protobuf": "cd src/main/proto && buf lint --verbose",
     "preinstall": "curl -L https://foundry.paradigm.xyz | bash && foundryup",
