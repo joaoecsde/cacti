@@ -26,6 +26,8 @@ import {
   X509Identity,
   TransientMap,
   Wallet,
+  ContractEvent,
+  ContractListener,
 } from "fabric-network";
 import {
   BuildProposalRequest,
@@ -110,6 +112,7 @@ import {
   GetChainInfoResponseV1,
   GetDiscoveryResultsRequestV1,
   GetDiscoveryResultsResponseV1,
+  CreateListenerRequest,
 } from "./generated/openapi/typescript-axios/index";
 
 import {
@@ -2012,5 +2015,52 @@ export class PluginLedgerConnectorFabric
     });
 
     return discoveryResults;
+  }
+
+  /**
+   * Creates a new Fabric event listener.
+   *
+   * @param listener The listener object to create.
+   * @param req The request object containing the channel name and contract name.
+   * @returns A promise that resolves to the listener object
+   *
+   *
+   * @throws Will throw an error if the listener cannot be created
+   */
+  public async createFabricListener(req: CreateListenerRequest): Promise<ContractListener> {
+    const fnTag = `${this.className}#createFabricListener()`;
+
+    const listener = async (contractEvent: ContractEvent) => console.log("Contract Event: " + contractEvent);
+    try {
+      const gateway = await this.createGatewayWithOptions(req.gatewayOptions);
+      const network = await gateway.getNetwork(req.channelName);
+      const contract = network.getContract(req.contractName);
+      return await contract.addContractListener(listener);
+    }
+    catch (error) {
+      throw new Error(
+        `${fnTag} Failed to create fabric listener. ` +
+        `Error: ${error.message}`,
+      );
+    }
+  }
+
+  public async destroyFabricListener(
+    listener: ContractListener,
+    req: CreateListenerRequest
+  ): Promise<void> {
+    const fnTag = `${this.className}#destroyFabricListener()`;
+    try {
+      const gateway = await this.createGatewayWithOptions(req.gatewayOptions);
+      const network = await gateway.getNetwork(req.channelName);
+      const contract = network.getContract(req.contractName);
+      await contract.removeContractListener(listener);
+      await gateway.disconnect();
+    } catch (error) {
+      throw new Error(
+        `${fnTag} Failed to destroy fabric listener. ` +
+        `Error: ${error.message}`,
+      );
+    }
   }
 }
