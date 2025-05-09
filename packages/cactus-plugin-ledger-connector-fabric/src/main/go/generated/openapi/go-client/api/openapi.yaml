@@ -1564,9 +1564,17 @@ components:
           minLength: 1
           nullable: false
           type: string
+        chaincodeId:
+          nullable: false
+          type: string
+        eventName:
+          nullable: false
+          type: string
       required:
+      - chaincodeId
       - channelName
       - contractName
+      - eventName
       - gatewayOptions
       type: object
     GetChainInfoRequestV1:

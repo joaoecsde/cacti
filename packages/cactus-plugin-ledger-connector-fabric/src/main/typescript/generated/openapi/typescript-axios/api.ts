@@ -303,6 +303,18 @@ export interface CreateListenerRequest {
      * @memberof CreateListenerRequest
      */
     'contractName': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateListenerRequest
+     */
+    'chaincodeId': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateListenerRequest
+     */
+    'eventName': string;
 }
 /**
  * 

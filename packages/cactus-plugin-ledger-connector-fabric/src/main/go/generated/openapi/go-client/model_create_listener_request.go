@@ -23,17 +23,21 @@ type CreateListenerRequest struct {
 	ChannelName string `json:"channelName"`
 	GatewayOptions GatewayOptions `json:"gatewayOptions"`
 	ContractName string `json:"contractName"`
+	ChaincodeId string `json:"chaincodeId"`
+	EventName string `json:"eventName"`
 }
 
 // NewCreateListenerRequest instantiates a new CreateListenerRequest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateListenerRequest(channelName string, gatewayOptions GatewayOptions, contractName string) *CreateListenerRequest {
+func NewCreateListenerRequest(channelName string, gatewayOptions GatewayOptions, contractName string, chaincodeId string, eventName string) *CreateListenerRequest {
 	this := CreateListenerRequest{}
 	this.ChannelName = channelName
 	this.GatewayOptions = gatewayOptions
 	this.ContractName = contractName
+	this.ChaincodeId = chaincodeId
+	this.EventName = eventName
 	return &this
 }
 
@@ -117,6 +121,54 @@ func (o *CreateListenerRequest) SetContractName(v string) {
 	o.ContractName = v
 }
 
+// GetChaincodeId returns the ChaincodeId field value
+func (o *CreateListenerRequest) GetChaincodeId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ChaincodeId
+}
+
+// GetChaincodeIdOk returns a tuple with the ChaincodeId field value
+// and a boolean to check if the value has been set.
+func (o *CreateListenerRequest) GetChaincodeIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ChaincodeId, true
+}
+
+// SetChaincodeId sets field value
+func (o *CreateListenerRequest) SetChaincodeId(v string) {
+	o.ChaincodeId = v
+}
+
+// GetEventName returns the EventName field value
+func (o *CreateListenerRequest) GetEventName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.EventName
+}
+
+// GetEventNameOk returns a tuple with the EventName field value
+// and a boolean to check if the value has been set.
+func (o *CreateListenerRequest) GetEventNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.EventName, true
+}
+
+// SetEventName sets field value
+func (o *CreateListenerRequest) SetEventName(v string) {
+	o.EventName = v
+}
+
 func (o CreateListenerRequest) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -130,6 +182,8 @@ func (o CreateListenerRequest) ToMap() (map[string]interface{}, error) {
 	toSerialize["channelName"] = o.ChannelName
 	toSerialize["gatewayOptions"] = o.GatewayOptions
 	toSerialize["contractName"] = o.ContractName
+	toSerialize["chaincodeId"] = o.ChaincodeId
+	toSerialize["eventName"] = o.EventName
 	return toSerialize, nil
 }
 

@@ -26,6 +26,8 @@ import com.squareup.moshi.JsonClass
  * @param channelName Fabric channel we want to connect to. If not provided, then one from channelName parameter will be used
  * @param gatewayOptions 
  * @param contractName 
+ * @param chaincodeId 
+ * @param eventName 
  */
 
 
@@ -39,7 +41,13 @@ data class CreateListenerRequest (
     val gatewayOptions: GatewayOptions,
 
     @Json(name = "contractName")
-    val contractName: kotlin.String
+    val contractName: kotlin.String,
+
+    @Json(name = "chaincodeId")
+    val chaincodeId: kotlin.String,
+
+    @Json(name = "eventName")
+    val eventName: kotlin.String
 
 )
 

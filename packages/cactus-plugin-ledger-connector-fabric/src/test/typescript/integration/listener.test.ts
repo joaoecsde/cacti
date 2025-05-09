@@ -189,16 +189,15 @@ describe("PluginLedgerConnectorFabric", () => {
   });
 
   it("setup log subscriber, issue tx, and capture event emitted", async () => {
-    const channelName = "mychannel";
+    const channelId = "mychannel";
+    const channelName = channelId;
     const contractName = "basic-asset-transfer";
     const deployedContractName = `${contractName}-${(Math.random() + 1).toString(36).substring(7)}`;
+    const chaincodeName = "basic-asset-transfer";
+    const eventName = "assetCreated";
 
     console.log("Subscribing to events emitted by contract:", contractName);
 
-
-
-    const channelId = "mychannel";
-    
     const contractRelPath = "../fixtures/go/lock-asset/chaincode-typescript";
     const contractDir = path.join(__dirname, contractRelPath);
 
@@ -317,6 +316,8 @@ describe("PluginLedgerConnectorFabric", () => {
       channelName,
       gatewayOptions,
       contractName: deployedContractName,
+      chaincodeId: chaincodeName,
+      eventName,
     } as CreateListenerRequest);
 
     await new Promise((resolve) => setTimeout(resolve, 10000));
@@ -383,11 +384,6 @@ describe("PluginLedgerConnectorFabric", () => {
     log.warn(lockRes.data.functionOutput); 
 
     console.log("Waiting for events to be emitted...");
-    await plugin.destroyFabricListener(subscriber, {
-      channelName,
-      gatewayOptions,
-      contractName,
-    } as CreateListenerRequest);
   
 
   });

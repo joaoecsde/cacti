@@ -1066,7 +1066,7 @@
       "CreateListenerRequest": {
         "description": "Request for Create Listener endpoint.",
         "type": "object",
-        "required": ["channelName", "gatewayOptions", "contractName"],
+        "required": ["channelName", "gatewayOptions", "contractName", "chaincodeId", "eventName"],
         "properties": {
           "channelName": {
             "type": "string",
@@ -1085,6 +1085,14 @@
             "minLength": 1,
             "maxLength": 100,
             "nullable": false
+          },
+          "chaincodeId": {
+            "nullable": false,
+            "type": "string"
+          },
+          "eventName": {
+            "nullable": false,
+            "type": "string"
           }
         }
       },

@@ -33,6 +33,9 @@ import {
   BuildProposalRequest,
   Channel,
   Client,
+  EventCallback,
+  EventInfo,
+  EventListener,
   IdentityContext,
   User,
   Endorser,
@@ -2027,15 +2030,61 @@ export class PluginLedgerConnectorFabric
    *
    * @throws Will throw an error if the listener cannot be created
    */
-  public async createFabricListener(req: CreateListenerRequest): Promise<ContractListener> {
+  public async createFabricListener(req: CreateListenerRequest): Promise<EventListener> {
     const fnTag = `${this.className}#createFabricListener()`;
 
-    const listener = async (contractEvent: ContractEvent) => console.log("Contract Event: " + contractEvent);
+    //const listener = async (contractEvent: ContractEvent) => console.log("Contract Event: " + contractEvent);
     try {
       const gateway = await this.createGatewayWithOptions(req.gatewayOptions);
       const network = await gateway.getNetwork(req.channelName);
-      const contract = network.getContract(req.contractName);
-      return await contract.addContractListener(listener);
+      const channel = network.getChannel();
+
+      // Eventers
+      // (prefer peers from same org)
+      let peers = channel.getEndorsers();
+      peers = peers.length > 0 ? peers : channel.getEndorsers();
+      const eventers = peers.map((peer) => {
+        const eventer = channel.client.newEventer(peer.name);
+        eventer.setEndpoint(peer.endpoint);
+        return eventer;
+      });
+      if (eventers.length === 0) {
+        throw new Error("No peers (eventers) available for monitoring");
+      }
+
+      // Event Service
+      const eventService = channel.newEventService(
+        `SubscribeDelegatedSign_${uuidv4()}`,
+      );
+      eventService.setTargets(eventers);
+
+      // Event listener
+      const eventCallback: EventCallback = (
+        error?: Error,
+        event?: EventInfo,
+      ) => {
+        if (error) {
+          throw error;
+        }
+      };
+
+      const eventListener = eventService.registerChaincodeListener(req.chaincodeId,
+        req.eventName,
+        eventCallback, {
+          unregister: false,
+          });
+        console.log("Contract Event: " + eventListener);
+      
+        eventListener.onEvent = (error: Error, event: EventInfo) => {
+          if (error) {
+            console.error("Error in event listener:", error);
+            return;
+          }
+          console.log("Contract Event: " + event);
+        };
+
+      return await eventListener;
+      //return await contract.addContractListener(listener);
     }
     catch (error) {
       throw new Error(

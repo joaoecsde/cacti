@@ -45,12 +45,14 @@ export class AssetTransferContract extends Contract {
     id: string,
     size: number,
   ): Promise<void> {
+    const transferEvent = { id, value: size };
     const asset: Asset = {
       ID: id,
       Size: size,
       IsLock: false,
     };
     await ctx.stub.putState(id, Buffer.from(JSON.stringify(asset)));
+    await ctx.stub.setEvent("assetCreated", Buffer.from(JSON.stringify(transferEvent)));
   }
 
   // ReadAsset returns the asset stored in the world state with given id.
