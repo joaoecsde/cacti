@@ -94,6 +94,8 @@ import {
 } from "../../database/repository/interfaces/repository";
 import { ISATPLoggerConfig, SATPLogger } from "../../logging";
 import { MonitorService } from "../monitoring/monitor";
+import { resolveGatewaysByBlockchain } from "../network-identification/resolve-gateway";
+
 
 export interface ISATPManagerOptions {
   logLevel?: LogLevelDesc;
@@ -1111,6 +1113,126 @@ export class SATPManager {
     } catch (error) {
       this.logger.error(`${fnTag}, Failed to transact\nError: ${error}`);
       throw new TransactError(fnTag, error);
+    }
+  }
+
+   /**
+   * Discover counterparty gateways for a specific blockchain
+   * This replaces static gateway lookup with dynamic Kademlia discovery
+   */
+  public async discoverCounterpartyGateways(
+    blockchainId: string,
+  ): Promise<GatewayIdentity[]> {
+    const fnTag = `${SATPManager.CLASS_NAME}#discoverCounterpartyGateways()`;
+    this.logger.info(`${fnTag} Discovering gateways for blockchain: ${blockchainId}`);
+
+    try {
+      // Use the enhanced resolver to find gateways
+      const discoveredGateways = await resolveGatewaysByBlockchain(
+        this.logger,
+        blockchainId
+      );
+
+      if (discoveredGateways.length === 0) {
+        this.logger.warn(`${fnTag} No gateways discovered for blockchain: ${blockchainId}`);
+        return [];
+      }
+
+      this.logger.info(
+        `${fnTag} Successfully discovered ${discoveredGateways.length} gateway(s) for blockchain: ${blockchainId}`
+      );
+
+      // Filter out our own gateway to avoid connecting to ourselves
+      const externalGateways = discoveredGateways.filter(
+        gateway => gateway.id !== this.ourGateway.id
+      );
+
+      if (externalGateways.length !== discoveredGateways.length) {
+        this.logger.debug(`${fnTag} Filtered out own gateway, ${externalGateways.length} external gateways remain`);
+      }
+
+      return externalGateways;
+
+    } catch (error) {
+      this.logger.error(`${fnTag} Failed to discover gateways: ${error.message}`);
+      throw new Error(`Gateway discovery failed for blockchain ${blockchainId}: ${error.message}`);
+    }
+  }
+
+  /**
+   * Enhanced counterparty resolution that uses Kademlia discovery
+   * This method combines blockchain-based discovery with existing ID-based resolution
+   */
+  public async resolveCounterpartyGateway(
+    criteria: { gatewayId?: string; blockchainId?: string }
+  ): Promise<GatewayIdentity> {
+    const fnTag = `${SATPManager.CLASS_NAME}#resolveCounterpartyGateway()`;
+    
+    // If gateway ID is provided, use existing resolution method
+    if (criteria.gatewayId) {
+      this.logger.info(`${fnTag} Resolving gateway by ID: ${criteria.gatewayId}`);
+      const gateway = this.orchestrator.getGatewayIdentity(criteria.gatewayId);
+      if (!gateway) {
+        throw new Error(`Gateway with ID ${criteria.gatewayId} not found`);
+      }
+      return gateway;
+    }
+
+    // If blockchain ID is provided, use Kademlia discovery
+    if (criteria.blockchainId) {
+      this.logger.info(`${fnTag} Discovering gateway for blockchain: ${criteria.blockchainId}`);
+      
+      const gateways = await this.discoverCounterpartyGateways(criteria.blockchainId);
+      
+      if (gateways.length === 0) {
+        throw new Error(`No gateways found for blockchain: ${criteria.blockchainId}`);
+      }
+
+      // For now, return the first healthy gateway
+      // In production, you might want to implement load balancing or gateway selection logic
+      const selectedGateway = gateways[0];
+      this.logger.info(`${fnTag} Selected gateway: ${selectedGateway.id} for blockchain: ${criteria.blockchainId}`);
+      
+      return selectedGateway;
+    }
+
+    throw new Error("Either gatewayId or blockchainId must be provided for gateway resolution");
+  }
+
+  /**
+   * Get gateway discovery statistics
+   */
+  public async getGatewayDiscoveryStats(): Promise<{
+    totalDiscovered: number;
+    byBlockchain: { [blockchainId: string]: number };
+  }> {
+    const fnTag = `${SATPManager.CLASS_NAME}#getGatewayDiscoveryStats()`;
+    
+    try {
+      // Get connected DLTs from our configuration
+      const connectedDLTs = this.getConnectedDLTs();
+      const stats = {
+        totalDiscovered: 0,
+        byBlockchain: {} as { [blockchainId: string]: number },
+      };
+
+      // Query discovery stats for each blockchain we support
+      for (const dlt of connectedDLTs) {
+        try {
+          const gateways = await this.discoverCounterpartyGateways(dlt.id);
+          stats.byBlockchain[dlt.id] = gateways.length;
+          stats.totalDiscovered += gateways.length;
+        } catch (error) {
+          this.logger.warn(`${fnTag} Failed to get stats for ${dlt.id}: ${error.message}`);
+          stats.byBlockchain[dlt.id] = 0;
+        }
+      }
+
+      return stats;
+
+    } catch (error) {
+      this.logger.error(`${fnTag} Failed to get discovery stats: ${error.message}`);
+      throw error;
     }
   }
 }
