@@ -85,6 +85,7 @@ export class Stage0ClientService extends SATPService {
   public async newSessionRequest(
     session: SATPSession,
     thisGatewayId: string,
+    senderPubKey?: string,
   ): Promise<NewSessionRequest> {
     const stepTag = `newSessionRequest()`;
     const fnTag = `${this.getServiceIdentifier()}#${stepTag}`;
@@ -120,6 +121,7 @@ export class Stage0ClientService extends SATPService {
         contextId: sessionData.transferContextId,
         gatewayId: thisGatewayId,
         messageType: MessageType.NEW_SESSION_REQUEST,
+        senderPubKey: senderPubKey,
       });
 
       const messageSignature = bufArray2HexStr(

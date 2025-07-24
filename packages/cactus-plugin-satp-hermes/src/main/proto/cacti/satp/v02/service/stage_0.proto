@@ -20,6 +20,7 @@ message NewSessionRequest {
   cacti.satp.v02.common.Error error_code = 8;
   cacti.satp.v02.common.MessageType message_type = 9;
   string sender_gateway_network_type = 10;
+  string sender_pub_key = 11;
 }
 
 message NewSessionResponse {

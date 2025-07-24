@@ -81,7 +81,13 @@ export class Stage0SATPHandler implements SATPHandler {
       }
 
       if (!this.pubKeys.has(req.gatewayId)) {
-        throw new PubKeyError(fnTag);
+        if (req.senderPubKey && req.senderPubKey !== "") {
+          this.Log.info(`${fnTag}, Adding pubKey for gateway ${req.gatewayId} from request`);
+          this.pubKeys.set(req.gatewayId, req.senderPubKey);
+        } else {
+          this.Log.error(`${fnTag}, pubKey not found for gateway ${req.gatewayId} and no senderPubKey in request`);
+          throw new PubKeyError(fnTag);
+        }
       }
 
       session = await this.serverService.checkNewSessionRequest(
@@ -194,6 +200,7 @@ export class Stage0SATPHandler implements SATPHandler {
 
   public async NewSessionRequest(
     sessionId: string,
+    senderPubKey?: string,
   ): Promise<NewSessionRequest> {
     const stepTag = `NewSessionRequest()`;
     const fnTag = `${this.getHandlerIdentifier()}#${stepTag}`;
@@ -210,6 +217,7 @@ export class Stage0SATPHandler implements SATPHandler {
       const message = await this.clientService.newSessionRequest(
         session,
         this.gatewayId,
+        senderPubKey,
       );
 
       if (!message) {

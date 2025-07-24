@@ -80,6 +80,12 @@ import {
 } from "@hyperledger/cactus-cmd-api-server";
 import { AddressInfo } from "node:net";
 import { createMigrationSource } from "./database/knex-migration-source";
+import { 
+  initializeGatewayWithKademliaDiscovery, 
+  KademliaDiscoveryConfig,
+  GatewayInitializationConfig 
+} from "./services/gateway/gateway-initialization";
+import { SATPManager } from "./services/gateway/satp-manager";
 
 export interface SATPGatewayConfig extends ICactusPluginOptions {
   gid?: GatewayIdentity;
@@ -97,6 +103,8 @@ export interface SATPGatewayConfig extends ICactusPluginOptions {
   ontologyPath?: string;
   pluginRegistry: PluginRegistry;
   logLevel?: LogLevelDesc;
+
+  kademliaDiscovery?: KademliaDiscoveryConfig;
 }
 
 export class SATPGateway implements IPluginWebService, ICactusPlugin {
@@ -212,6 +220,7 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
       counterPartyGateways: this.config.counterPartyGateways,
       signer: this.signer,
       enableCrashRecovery: this.config.enableCrashRecovery,
+      kademliaDiscovery: this.config.kademliaDiscovery,
     };
 
     if (this.config.gid) {
@@ -278,6 +287,7 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
     } else {
       this.logger.info("CrashManager is disabled!");
     }
+     this.initializeKademliaDiscovery();
   }
 
   /* ICactus Plugin methods */
@@ -854,5 +864,88 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
         }
       });
     });
+  }
+
+  /**
+   * Initialize Kademlia discovery if configured
+   */
+  private initializeKademliaDiscovery(): void {
+    const fnTag = `${this.className}#initializeKademliaDiscovery()`;
+    
+    if (this.options.kademliaDiscovery?.enabled) {
+      this.logger.info(`${fnTag} Initializing Kademlia gateway discovery...`);
+      
+      try {
+        const initConfig: GatewayInitializationConfig = {
+          kademliaDiscovery: this.options.kademliaDiscovery,
+          logLevel: this.options.logLevel,
+        };
+
+        initializeGatewayWithKademliaDiscovery(initConfig);
+        
+        this.logger.info(
+          `${fnTag} Kademlia discovery initialized with ${this.options.kademliaDiscovery.nodes?.length || 0} nodes`
+        );
+      } catch (error) {
+        this.logger.error(`${fnTag} Failed to initialize Kademlia discovery: ${error.message}`);
+        // Don't throw - gateway can still work with static configuration
+      }
+    } else {
+      this.logger.info(`${fnTag} Kademlia discovery not configured, using static gateways only`);
+    }
+  }
+
+  /**
+   * Update Kademlia configuration at runtime
+   */
+  public updateKademliaConfig(config: KademliaDiscoveryConfig): void {
+    const fnTag = `${this.className}#updateKademliaConfig()`;
+    this.logger.info(`${fnTag} Updating Kademlia discovery configuration...`);
+
+    this.options.kademliaDiscovery = config;
+    this.initializeKademliaDiscovery();
+    
+    this.logger.info(`${fnTag} Kademlia configuration updated successfully`);
+  }
+
+  /**
+   * Get current Kademlia configuration
+   */
+  public getKademliaConfig(): KademliaDiscoveryConfig | undefined {
+    return this.options.kademliaDiscovery;
+  }
+
+  /**
+   * Get SATP Manager for external access
+   */
+  public async getSATPManager(): Promise<SATPManager> {
+    if (!this.BLODispatcher) {
+      throw new Error("BLO Dispatcher not initialized. Call onPluginInit() first.");
+    }
+    
+    // Return the SATP Manager from the dispatcher (awaiting the promise)
+    return await this.BLODispatcher.getManager();
+  }
+
+  /**
+   * Create example configuration with Kademlia discovery
+   */
+  public static createExampleConfigWithKademlia(
+    baseConfig: Partial<SATPGatewayConfig>,
+    kademliaNodes: string[]
+  ): SATPGatewayConfig {
+    return {
+      ...baseConfig,
+      instanceId: baseConfig.instanceId || "satp-gateway-with-kademlia",
+      pluginRegistry: baseConfig.pluginRegistry || new PluginRegistry({ plugins: [] }),
+      kademliaDiscovery: {
+        enabled: true,
+        nodes: kademliaNodes,
+        requestTimeout: 5000,
+        includeUnhealthy: false,
+        maxAge: 60,
+        useSecure: true,
+      },
+    } as SATPGatewayConfig;
   }
 }
