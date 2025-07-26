@@ -28,12 +28,25 @@ import { SatpStage2Service } from "../../generated/proto/cacti/satp/v02/service/
 import { SatpStage3Service } from "../../generated/proto/cacti/satp/v02/service/stage_3_pb";
 import { CrashRecoveryService } from "../../generated/proto/cacti/satp/v02/service/crash_recovery_pb";
 
+import { KademliaGatewayDiscoveryService} from "../network-identification/kademlia-gateway-discovery";
+import { LedgerType } from "@hyperledger/cactus-core-api";
+
+
 export interface IGatewayOrchestratorOptions {
   logLevel?: LogLevelDesc;
   localGateway: GatewayIdentity;
   counterPartyGateways?: GatewayIdentity[];
   signer: JsObjectSigner;
   enableCrashRecovery?: boolean;
+
+  kademliaDiscovery?: {
+    enabled: boolean;
+    nodes: string[];
+    requestTimeout?: number;
+    includeUnhealthy?: boolean;
+    maxAge?: number;
+    useSecure?: boolean;
+  };
 }
 
 //import { COREDispatcher, COREDispatcherOptions } from "../../core/dispatcher";
@@ -59,6 +72,8 @@ export class GatewayOrchestrator {
   // TODO!: add logic to manage sessions (parallelization, user input, freeze, unfreeze, rollback, recovery)
   private channels: Map<string, GatewayChannel> = new Map();
   private readonly logger: Logger;
+
+  private kademliaDiscovery?: KademliaGatewayDiscoveryService;
 
   constructor(options: IGatewayOrchestratorOptions) {
     // add checks
@@ -98,6 +113,21 @@ export class GatewayOrchestrator {
       this.logger.info(
         `Gateway Connection Manager connected to ${numberGatewayChannels} gateways.`,
       );
+    }
+
+    if (options.kademliaDiscovery?.enabled && options.kademliaDiscovery.nodes.length > 0) {
+      this.kademliaDiscovery = new KademliaGatewayDiscoveryService({
+        kademliaNodes: options.kademliaDiscovery.nodes,
+        logLevel: options.logLevel,
+        requestTimeout: options.kademliaDiscovery.requestTimeout,
+        includeUnhealthy: options.kademliaDiscovery.includeUnhealthy,
+        maxAge: options.kademliaDiscovery.maxAge,
+        useSecure: options.kademliaDiscovery.useSecure,
+      });
+      
+      this.logger.info(`Kademlia discovery enabled with ${options.kademliaDiscovery.nodes.length} nodes`);
+    } else {
+      this.logger.info("Kademlia discovery disabled");
     }
   }
 
@@ -538,4 +568,162 @@ export class GatewayOrchestrator {
     // ! todo implement transfer request
     this.logger.error("Not implemented");
   }
+
+  //Get channel with Kademlia discovery fallback
+   public getChannelWithDiscovery(id: string): GatewayChannel {
+    const fnTag = `${this.constructor.name}#getChannelWithDiscovery()`;
+    this.logger.debug(`${fnTag} Looking for channel with DLT ID: ${id} (with discovery fallback)`);
+
+    try {
+      // First try the original synchronous method
+      return this.getChannel(id);
+    } catch (error) {
+      // If no channel found and Kademlia is configured, throw special error
+      if (this.kademliaDiscovery) {
+        this.logger.info(`${fnTag} No existing channel found for DLT ${id}, Kademlia discovery available`);
+        
+        // Throw a special error that indicates discovery should be attempted
+        const discoveryError = new Error(`KADEMLIA_DISCOVERY_NEEDED:${id}`);
+        (discoveryError as any).dltId = id;
+        (discoveryError as any).needsDiscovery = true;
+        throw discoveryError;
+      }
+
+      // Re-throw original error if Kademlia not configured
+      throw error;
+    }
+  }
+
+  // NEW METHOD: Async discovery and channel creation  
+  public async discoverAndCreateChannel(dltId: string): Promise<GatewayChannel> {
+    const fnTag = `${this.constructor.name}#discoverAndCreateChannel()`;
+    
+    if (!this.kademliaDiscovery) {
+      throw new Error(`Kademlia discovery not configured for DLT ${dltId}`);
+    }
+
+    try {
+      this.logger.info(`${fnTag} Searching Kademlia network for gateways supporting DLT: ${dltId}`);
+      const discoveredGateways = await this.kademliaDiscovery.discoverGateways(dltId);
+
+      if (discoveredGateways.length === 0) {
+        throw new Error(`No gateways found for DLT ${dltId} in Kademlia network`);
+      }
+
+      this.logger.info(`${fnTag} Found ${discoveredGateways.length} gateway(s) for DLT ${dltId} via Kademlia`);
+
+      // Select the first healthy gateway
+      const selectedGateway = discoveredGateways[0];
+      this.logger.info(`${fnTag} Selected gateway: ${selectedGateway.name} (${selectedGateway.id})`);
+
+      // Create and establish a new channel with the discovered gateway
+      const newChannel = await this.createChannelFromDiscoveredGateway(selectedGateway, dltId);
+      
+      this.logger.info(`${fnTag} Successfully created channel for DLT ${dltId} via Kademlia discovery`);
+      return newChannel;
+
+    } catch (discoveryError) {
+      this.logger.error(`${fnTag} Kademlia discovery failed for DLT ${dltId}: ${discoveryError.message}`);
+      throw new Error(`Kademlia discovery failed for DLT ${dltId}: ${discoveryError.message}`);
+    }
+  }
+
+  // NEW METHOD: Create a channel from a discovered gateway
+  private async createChannelFromDiscoveredGateway(
+    gateway: GatewayIdentity, 
+    dltId: string
+  ): Promise<GatewayChannel> {
+    const fnTag = `${this.constructor.name}#createChannelFromDiscoveredGateway()`;
+    
+    try {
+      this.logger.debug(`${fnTag} Creating channel for gateway: ${gateway.id}`);
+
+      // Add the discovered gateway to our known gateways
+      this.counterPartyGateways.set(gateway.id, gateway);
+
+      // Create the channel following the existing pattern
+      const channel: GatewayChannel = {
+        fromGatewayID: this.localGateway.id,
+        toGatewayID: gateway.id,
+        sessions: new Map(),
+        connectedDLTs: gateway.connectedDLTs || [{ id: dltId, ledgerType: LedgerType.Besu2X }],
+        clients: new Map(),
+      };
+
+      // Store the channel
+      const channelKey = `${this.localGateway.id}-${gateway.id}`;
+      this.channels.set(channelKey, channel);
+
+      // Establish connection to the discovered gateway
+      await this.establishConnectionToGateway(gateway);
+
+      this.logger.info(`${fnTag} Channel created and connection established for gateway: ${gateway.id}`);
+      return channel;
+
+    } catch (error) {
+      this.logger.error(`${fnTag} Failed to create channel: ${error.message}`);
+      throw new Error(`Failed to create channel for discovered gateway ${gateway.id}: ${error.message}`);
+    }
+  }
+
+  // NEW METHOD: Establish connection to a discovered gateway
+  private async establishConnectionToGateway(gateway: GatewayIdentity): Promise<void> {
+    const fnTag = `${this.constructor.name}#establishConnectionToGateway()`;
+    
+    try {
+      this.logger.debug(`${fnTag} Establishing connection to gateway: ${gateway.address}:${gateway.gatewayServerPort}`);
+
+      // Create gRPC transport to the discovered gateway
+      const transport = createGrpcWebTransport({
+        baseUrl: `${gateway.address}:${gateway.gatewayServerPort}`,
+        httpVersion: "2",
+      });
+
+      // Create clients for all stages
+      const stage0Client = createClient(SatpStage0Service, transport);
+      const stage1Client = createClient(SatpStage1Service, transport);
+      const stage2Client = createClient(SatpStage2Service, transport);
+      const stage3Client = createClient(SatpStage3Service, transport);
+
+      // Store clients in the channel
+      const channel = this.getChannelByGatewayId(gateway.id);
+      if (channel) {
+        channel.clients.set("0", stage0Client);
+        channel.clients.set("1", stage1Client);
+        channel.clients.set("2", stage2Client);
+        channel.clients.set("3", stage3Client);
+      }
+
+      this.logger.info(`${fnTag} Successfully connected to gateway: ${gateway.id}`);
+
+    } catch (error) {
+      this.logger.error(`${fnTag} Failed to establish connection: ${error.message}`);
+      throw error;
+    }
+  }
+
+  // NEW HELPER METHOD: Get channel by gateway ID
+  private getChannelByGatewayId(gatewayId: string): GatewayChannel | undefined {
+    const channels = Array.from(this.channels.values());
+    return channels.find(channel => channel.toGatewayID === gatewayId);
+  }
+
+  // NEW METHOD: Get Kademlia discovery statistics
+  public getKademliaStats(): { enabled: boolean; nodeCount: number } {
+    return {
+      enabled: !!this.kademliaDiscovery,
+      nodeCount: this.kademliaDiscovery?.getConfig().kademliaNodes.length || 0,
+    };
+  }
+
+  // NEW METHOD: Manually trigger discovery for testing
+  public async discoverGatewaysForDLT(dltId: string): Promise<GatewayIdentity[]> {
+    if (!this.kademliaDiscovery) {
+      throw new Error("Kademlia discovery not configured");
+    }
+    
+    this.logger.info(`Manual discovery request for DLT: ${dltId}`);
+    return await this.kademliaDiscovery.discoverGateways(dltId);
+  }
+
 }

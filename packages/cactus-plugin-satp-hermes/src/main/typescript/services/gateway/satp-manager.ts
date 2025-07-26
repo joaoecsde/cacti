@@ -15,7 +15,9 @@ import { Stage1ServerService } from "../../core/stage-services/server/stage1-ser
 import { Stage2ServerService } from "../../core/stage-services/server/stage2-server-service";
 import { Stage3ServerService } from "../../core/stage-services/server/stage3-server-service";
 import { SATPSession } from "../../core/satp-session";
-import { GatewayIdentity } from "../../core/types";
+import { GatewayIdentity,
+  GatewayChannel
+ } from "../../core/types";
 import { Stage0ClientService } from "../../core/stage-services/client/stage0-client-service";
 import { Stage1ClientService } from "../../core/stage-services/client/stage1-client-service";
 import { Stage2ClientService } from "../../core/stage-services/client/stage2-client-service";
@@ -543,9 +545,38 @@ export class SATPManager {
         throw new Error(`${fnTag}, Receiver asset network ID not found`);
       }
 
-      const channel = this.orchestrator.getChannel(
-        clientSessionData.receiverAsset?.networkId?.id,
-      );
+    if (!clientSessionData.receiverAsset?.networkId?.id) {
+      throw new Error(`${fnTag}, Receiver asset network ID not found`);
+    }
+
+    const dltId = clientSessionData.receiverAsset?.networkId?.id;
+    let channel: GatewayChannel;
+
+    try {
+      // ENHANCED: Try to get channel with discovery support
+      channel = this.orchestrator.getChannelWithDiscovery(dltId);
+    } catch (error) {
+      // Check if this is a special error indicating Kademlia discovery is needed
+      if (error.message.startsWith('KADEMLIA_DISCOVERY_NEEDED:')) {
+        this.logger.info(`${fnTag} Attempting Kademlia discovery for DLT: ${dltId}`);
+        
+        try {
+          // Perform async discovery and create channel
+          channel = await this.orchestrator.discoverAndCreateChannel(dltId);
+          this.logger.info(`${fnTag} Successfully created channel via Kademlia discovery for DLT: ${dltId}`);
+        } catch (discoveryError) {
+          this.logger.error(`${fnTag} Kademlia discovery failed for DLT ${dltId}: ${discoveryError.message}`);
+          throw new Error(`${fnTag}, Channel not found and discovery failed: ${discoveryError.message}`);
+        }
+      } else {
+        // Not a discovery error, re-throw original error
+        throw new Error(`${fnTag}, Channel not found: ${error.message}`);
+      }
+    }
+
+    if (!channel) {
+      throw new Error(`${fnTag}, Channel not found`);
+    }
 
       if (!channel) {
         throw new Error(`${fnTag}, Channel not found`);
