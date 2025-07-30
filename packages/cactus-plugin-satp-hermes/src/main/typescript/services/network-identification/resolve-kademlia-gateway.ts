@@ -16,9 +16,7 @@ export interface EnhancedGatewayResolverOptions {
     maxAge?: number;
     useSecure?: boolean;
   };
-  
-  // Fallback to static gateways if Kademlia discovery fails
-  staticGateways?: GatewayIdentity[];
+
   
   // Cache discovered gateways for this duration (in ms)
   cacheTimeout?: number;
@@ -47,7 +45,6 @@ export class EnhancedGatewayResolver {
   constructor(options: EnhancedGatewayResolverOptions) {
     this.options = {
       cacheTimeout: 300000, // 5 minutes default
-      staticGateways: [],
       ...options,
     };
 
@@ -119,16 +116,6 @@ export class EnhancedGatewayResolver {
         }
       }
 
-      // Step 3: Fallback to static gateways
-      this.log.info(`${fnTag} Falling back to static gateway configuration`);
-      const staticGateways = this.getStaticGatewaysForBlockchain(blockchainId);
-      
-      if (staticGateways.length > 0) {
-        this.log.info(`${fnTag} Found ${staticGateways.length} static gateway(s) for ${blockchainId}`);
-        this.cacheGateways(blockchainId, staticGateways);
-        return staticGateways;
-      }
-
       // Step 4: No gateways found
       this.log.warn(`${fnTag} No gateways found for blockchain ${blockchainId}`);
       return [];
@@ -146,14 +133,7 @@ export class EnhancedGatewayResolver {
     const fnTag = `${EnhancedGatewayResolver.CLASS_NAME}#resolveGatewayID()`;
     this.log.info(`${fnTag} Resolving gateway with ID: ${ID}`);
 
-    // First try static gateways for exact ID match
-    const staticGateway = this.options.staticGateways?.find(gw => gw.id === ID);
-    if (staticGateway) {
-      this.log.info(`${fnTag} Found static gateway with ID: ${ID}`);
-      return staticGateway;
-    }
-
-    // If not found in static, try to find in any cached gateways
+    // Try to find in any cached gateways
     for (const [blockchainId, cachedGateways] of this.gatewayCache.entries()) {
       const gateway = cachedGateways.find(cg => cg.gateway.id === ID);
       if (gateway && !this.isCacheExpired(gateway.discoveredAt)) {
@@ -208,21 +188,6 @@ export class EnhancedGatewayResolver {
    */
   private isCacheExpired(discoveredAt: number): boolean {
     return Date.now() - discoveredAt > (this.options.cacheTimeout || 300000);
-  }
-
-  /**
-   * Get static gateways that support a specific blockchain
-   */
-  private getStaticGatewaysForBlockchain(blockchainId: string): GatewayIdentity[] {
-    if (!this.options.staticGateways) {
-      return [];
-    }
-
-    return this.options.staticGateways.filter(gateway =>
-      gateway.connectedDLTs?.some(dlt => 
-        dlt.id.toLowerCase() === blockchainId.toLowerCase()
-      )
-    );
   }
 
   /**

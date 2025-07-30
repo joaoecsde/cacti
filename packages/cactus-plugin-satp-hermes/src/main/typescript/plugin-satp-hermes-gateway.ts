@@ -220,6 +220,7 @@ export class SATPGateway implements IPluginWebService, ICactusPlugin {
       counterPartyGateways: this.config.counterPartyGateways,
       signer: this.signer,
       enableCrashRecovery: this.config.enableCrashRecovery,
+      kademliaDiscovery: this.config.kademliaDiscovery,
     };
 
     if (this.config.gid) {

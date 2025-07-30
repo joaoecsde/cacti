@@ -18,6 +18,7 @@ export interface KademliaGatewayInfo {
   age: string;
   isFresh: boolean;
   hasRecentHealthCheck: boolean;
+  pubKey?: string; 
 }
 
 export interface KademliaDiscoveryResponse {
@@ -239,8 +240,9 @@ export class KademliaGatewayDiscoveryService {
         ],
         proofID: `kademlia-proof-${kademliaGateway.nodeId}`,
         gatewayServerPort: gatewayPort,
-        gatewayClientPort: gatewayPort + 1000,
+        gatewayClientPort: gatewayPort + 1,
         address: address as Address,
+        pubKey: kademliaGateway.pubKey,
       };
 
       return gatewayIdentity;
@@ -267,8 +269,8 @@ export class KademliaGatewayDiscoveryService {
     }
     
     // Default fallback - you might want to make this configurable
-    this.log.warn(`Unknown blockchain type: ${blockchainId}, defaulting to Besu2X`);
-    return LedgerType.Besu2X;
+    this.log.warn(`Unknown blockchain type: ${blockchainId}, defaulting to Fabric2`);
+    return LedgerType.Fabric2;
   }
 
   /**

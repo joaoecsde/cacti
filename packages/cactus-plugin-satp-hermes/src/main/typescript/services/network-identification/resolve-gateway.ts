@@ -22,7 +22,6 @@ export function getGatewayResolver(): EnhancedGatewayResolver {
     // Fallback to static-only resolver if not initialized
     globalResolver = new EnhancedGatewayResolver({
       kademliaDiscovery: { enabled: false, nodes: [] },
-      staticGateways: getDefaultStaticGateways(),
     });
   }
   return globalResolver;
@@ -52,50 +51,6 @@ export async function resolveGatewaysByBlockchain(
     logger.error(`${fnTag} Failed to resolve gateways for blockchain ${blockchainId}: ${error.message}`);
     throw error;
   }
-}
-
-// Helper function to get default static gateways
-function getDefaultStaticGateways(): GatewayIdentity[] {
-  return [
-    {
-      id: "1",
-      name: "Gateway1",
-      version: [
-        {
-          Core: "1.0",
-          Architecture: "1.0",
-          Crash: "1.0",
-        },
-      ],
-      connectedDLTs: [
-        { id: "BESU", ledgerType: LedgerType.Besu2X },
-        { id: "FABRIC", ledgerType: LedgerType.Fabric2 },
-        { id: "ETH", ledgerType: LedgerType.Ethereum },
-      ],
-      proofID: "mockProofID1",
-      gatewayServerPort: 3011,
-      address: "http://localhost",
-    },
-    {
-      id: "2",
-      name: "Gateway2",
-      version: [
-        {
-          Core: "1.0",
-          Architecture: "1.0",
-          Crash: "1.0",
-        },
-      ],
-      connectedDLTs: [
-        { id: "BESU", ledgerType: LedgerType.Besu2X },
-        { id: "FABRIC", ledgerType: LedgerType.Fabric2 },
-        { id: "ETH", ledgerType: LedgerType.Ethereum },
-      ],
-      proofID: "mockProofID1",
-      gatewayServerPort: 3012,
-      address: "http://localhost",
-    },
-  ];
 }
 
 // gets an ID, queries a repository, returns a gateway identity

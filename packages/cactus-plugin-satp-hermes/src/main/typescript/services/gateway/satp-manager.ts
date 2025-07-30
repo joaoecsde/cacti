@@ -554,28 +554,9 @@ export class SATPManager {
 
     try {
       // ENHANCED: Try to get channel with discovery support
-      channel = this.orchestrator.getChannelWithDiscovery(dltId);
+      channel = await this.orchestrator.getChannelWithAutoDiscovery(dltId);
     } catch (error) {
-      // Check if this is a special error indicating Kademlia discovery is needed
-      if (error.message.startsWith('KADEMLIA_DISCOVERY_NEEDED:')) {
-        this.logger.info(`${fnTag} Attempting Kademlia discovery for DLT: ${dltId}`);
-        
-        try {
-          // Perform async discovery and create channel
-          channel = await this.orchestrator.discoverAndCreateChannel(dltId);
-          this.logger.info(`${fnTag} Successfully created channel via Kademlia discovery for DLT: ${dltId}`);
-        } catch (discoveryError) {
-          this.logger.error(`${fnTag} Kademlia discovery failed for DLT ${dltId}: ${discoveryError.message}`);
-          throw new Error(`${fnTag}, Channel not found and discovery failed: ${discoveryError.message}`);
-        }
-      } else {
-        // Not a discovery error, re-throw original error
-        throw new Error(`${fnTag}, Channel not found: ${error.message}`);
-      }
-    }
-
-    if (!channel) {
-      throw new Error(`${fnTag}, Channel not found`);
+      throw new Error(`${fnTag}, Channel not found: ${error.message}`);
     }
 
       if (!channel) {

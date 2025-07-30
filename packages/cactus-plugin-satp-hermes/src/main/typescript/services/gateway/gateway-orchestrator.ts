@@ -570,27 +570,31 @@ export class GatewayOrchestrator {
   }
 
   //Get channel with Kademlia discovery fallback
-   public getChannelWithDiscovery(id: string): GatewayChannel {
-    const fnTag = `${this.constructor.name}#getChannelWithDiscovery()`;
-    this.logger.debug(`${fnTag} Looking for channel with DLT ID: ${id} (with discovery fallback)`);
-
+  public async getChannelWithAutoDiscovery(dltId: string): Promise<GatewayChannel> {
+    const fnTag = `${this.constructor.name}#getChannelWithAutoDiscovery()`;
     try {
-      // First try the original synchronous method
-      return this.getChannel(id);
+      // Try existing channel first
+      return this.getChannel(dltId);
     } catch (error) {
-      // If no channel found and Kademlia is configured, throw special error
-      if (this.kademliaDiscovery) {
-        this.logger.info(`${fnTag} No existing channel found for DLT ${id}, Kademlia discovery available`);
-        
-        // Throw a special error that indicates discovery should be attempted
-        const discoveryError = new Error(`KADEMLIA_DISCOVERY_NEEDED:${id}`);
-        (discoveryError as any).dltId = id;
-        (discoveryError as any).needsDiscovery = true;
-        throw discoveryError;
+      // No static channel found, try Kademlia discovery
+      this.logger.info(`${fnTag} No static channel for DLT ${dltId}, attempting Kademlia discovery`);
+      
+      if (!this.kademliaDiscovery) {
+        throw new Error(`No static channel found for DLT ${dltId} and Kademlia discovery not configured`);
       }
-
-      // Re-throw original error if Kademlia not configured
-      throw error;
+      
+      const discoveredGateways = await this.kademliaDiscovery.discoverGateways(dltId);
+      
+      if (discoveredGateways.length === 0) {
+        throw new Error(`No gateways discovered for DLT ${dltId}`);
+      }
+      
+      // Add and connect to the first discovered gateway
+      const selectedGateway = discoveredGateways[0];
+      await this.addGatewayAndCreateChannel(selectedGateway);
+      
+      // Return the newly created channel
+      return this.getChannel(dltId);
     }
   }
 
