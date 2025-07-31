@@ -553,7 +553,6 @@ export class SATPManager {
     let channel: GatewayChannel;
 
     try {
-      // ENHANCED: Try to get channel with discovery support
       channel = await this.orchestrator.getChannelWithAutoDiscovery(dltId);
     } catch (error) {
       throw new Error(`${fnTag}, Channel not found: ${error.message}`);
@@ -635,9 +634,11 @@ export class SATPManager {
         case undefined:
         case MessageType.NEW_SESSION_REQUEST:
           this.logger.debug(`${fnTag}, Initiating Stage 0`);
+
+          const senderPubKey = this.orchestrator.ourGateway.pubKey;
           newSessionRequest = await (
             this.getSATPHandler(SATPHandlerType.STAGE0) as Stage0SATPHandler
-          ).NewSessionRequest(session.getSessionId());
+          ).NewSessionRequest(session.getSessionId(), senderPubKey);
 
           if (!newSessionRequest) {
             throw new CreateSATPRequestError(

@@ -73,7 +73,7 @@
         "bundle-openapi-yaml": "swagger-cli bundle ./src/main/yml/bol/openapi-blo.yml -o ./src/main/yml/bol/openapi-blo-bundled.yml -r -t yaml",
         "codegen": "run-p 'codegen:*'",
         "codegen:openapi": "npm run generate-sdk",
-        "codegen:proto": "buf build --verbose",
+        "codegen:proto": "buf generate --verbose",
         "db:init": "run-s db:init:local db:init:remote",
         "db:init:local": "knex migrate:latest --knexfile src/knex/knexfile.ts",
         "db:init:remote": "knex migrate:latest --knexfile src/knex/knexfile-remote.ts",

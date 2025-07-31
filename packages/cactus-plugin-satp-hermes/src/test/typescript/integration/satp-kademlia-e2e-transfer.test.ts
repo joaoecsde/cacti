@@ -349,7 +349,7 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
       ccConfig: {
         bridgeConfig: [fabricNetworkOptions],
       },
-      counterPartyGateways: [gatewayIdentity1], // Also start with empty
+      counterPartyGateways: [], // Also start with empty
       remoteRepository: knexRemoteInstance.default,
       pluginRegistry: new PluginRegistry({ plugins: [] }),
       ontologyPath: ontologiesPath,
