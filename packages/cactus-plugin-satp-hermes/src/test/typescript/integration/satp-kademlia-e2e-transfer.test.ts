@@ -103,8 +103,7 @@ async function storeGatewayInKademlia(
  * Helper function to verify gateway discovery from Kademlia
  */
 async function verifyGatewayDiscovery(
-  blockchainId: string,
-  expectedGatewayId: string
+  blockchainId: string
 ): Promise<boolean> {
   const fnTag = "verifyGatewayDiscovery";
   log.info(`${fnTag} Verifying gateway discovery for blockchain ${blockchainId}`);
@@ -318,7 +317,6 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
 
     const ontologiesPath = path.join(__dirname, "../../ontologies");
 
-    // Gateway 1 configuration (Besu) - starts with empty counterPartyGateways for Kademlia discovery
     const options1: SATPGatewayConfig = {
       instanceId: uuidv4(),
       logLevel: "DEBUG",
@@ -326,11 +324,10 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
       ccConfig: {
         bridgeConfig: [besuNetworkOptions],
       },
-      counterPartyGateways: [], // Start with empty - will discover via Kademlia
+      counterPartyGateways: [], 
       remoteRepository: knexRemoteInstance.default,
       pluginRegistry: new PluginRegistry({ plugins: [] }),
       ontologyPath: ontologiesPath,
-      // Enable Kademlia discovery
       kademliaDiscovery: {
         enabled: true,
         nodes: [KADEMLIA_NODE_URL],
@@ -341,7 +338,6 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
       },
     };
 
-    // Gateway 2 configuration (Fabric)
     const options2: SATPGatewayConfig = {
       instanceId: uuidv4(),
       logLevel: "DEBUG",
@@ -349,7 +345,7 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
       ccConfig: {
         bridgeConfig: [fabricNetworkOptions],
       },
-      counterPartyGateways: [], // Also start with empty
+      counterPartyGateways: [],
       remoteRepository: knexRemoteInstance.default,
       pluginRegistry: new PluginRegistry({ plugins: [] }),
       ontologyPath: ontologiesPath,
@@ -364,14 +360,11 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
       },
     };
 
-    // Create gateways
     gateway1 = await factory.create(options1);
     expect(gateway1).toBeInstanceOf(SATPGateway);
-
     gateway2 = await factory.create(options2);
     expect(gateway2).toBeInstanceOf(SATPGateway);
 
-    // Verify gateway identities
     const identity1 = gateway1.Identity;
     expect(identity1.gatewayServerPort).toBe(5010);
     expect(identity1.gatewayClientPort).toBe(5011);
@@ -382,33 +375,25 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
     expect(identity2.gatewayClientPort).toBe(5013);
     expect(identity2.address).toBe("http://localhost");
 
-    // Start gateways
     await gateway1.startup();
     await gateway2.startup();
 
-    // STEP 1: Store destination gateway (gateway2) in Kademlia network
     await storeGatewayInKademlia(BesuTestEnvironment.BESU_NETWORK_ID, gatewayIdentity1, gateway1.pubKey);
     log.info("Stored gateway1 (Besu) in Kademlia");
-    
-    log.info("=== STEP 1: Storing destination gateway in Kademlia network ===");
+
     await storeGatewayInKademlia(FabricTestEnvironment.FABRIC_NETWORK_ID, gatewayIdentity2, gateway2.pubKey);
 
-    // STEP 2: Verify the gateway can be discovered
     log.info("=== STEP 2: Verifying gateway discovery ===");
     const discoveryVerified = await verifyGatewayDiscovery(
-      FabricTestEnvironment.FABRIC_NETWORK_ID, 
-      gatewayIdentity2.id
-    );
+      FabricTestEnvironment.FABRIC_NETWORK_ID);
     expect(discoveryVerified).toBe(true);
 
-    // Get dispatchers
     const dispatcher1 = gateway1.BLODispatcherInstance;
     const dispatcher2 = gateway2.BLODispatcherInstance;
 
     expect(dispatcher1).toBeTruthy();
     expect(dispatcher2).toBeTruthy();
 
-    // Setup approve addresses and permissions
     const reqApproveBesuAddress = await dispatcher1?.GetApproveAddress({
       networkId: besuEnv.network,
       tokenType: TokenType.NonstandardFungible,
@@ -440,8 +425,6 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
 
     await fabricEnv.giveRoleToBridge("Org2MSP");
 
-    // STEP 3: Execute transfer using Kademlia discovery
-    log.info("=== STEP 3: Executing transfer with Kademlia discovery ===");
     const req = getTransactRequest(
       "kademliaContext",
       besuEnv,
@@ -455,8 +438,6 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
     log.info(`Transfer response: ${res?.statusResponse}`);
     expect(res?.statusResponse).toBeDefined();
 
-    // STEP 4: Verify balances after transfer
-    log.info("=== STEP 4: Verifying transfer completion ===");
 
     await besuEnv.checkBalance(
       besuEnv.getTestContractName(),
@@ -495,9 +476,6 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
       fabricEnv.getTestOwnerSigningCredential(),
     );
     log.info("Amount was transferred correctly to the Fabric Owner account");
-
-    log.info("=== TRANSFER COMPLETED SUCCESSFULLY USING KADEMLIA DISCOVERY ===");
-
     await shutdownGateways();
   });
 });
