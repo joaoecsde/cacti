@@ -378,16 +378,6 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
     await gateway1.startup();
     await gateway2.startup();
 
-    await storeGatewayInKademlia(BesuTestEnvironment.BESU_NETWORK_ID, gatewayIdentity1, gateway1.pubKey);
-    log.info("Stored gateway1 (Besu) in Kademlia");
-
-    await storeGatewayInKademlia(FabricTestEnvironment.FABRIC_NETWORK_ID, gatewayIdentity2, gateway2.pubKey);
-
-    log.info("=== STEP 2: Verifying gateway discovery ===");
-    const discoveryVerified = await verifyGatewayDiscovery(
-      FabricTestEnvironment.FABRIC_NETWORK_ID);
-    expect(discoveryVerified).toBe(true);
-
     const dispatcher1 = gateway1.BLODispatcherInstance;
     const dispatcher2 = gateway2.BLODispatcherInstance;
 
@@ -433,9 +423,32 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
       "100",
     );
 
+    // START LATENCY MEASUREMENT
+    const transferStartTime = performance.now();
+    log.info(`Transfer started at: ${new Date().toISOString()}`);
+    await storeGatewayInKademlia(BesuTestEnvironment.BESU_NETWORK_ID, gatewayIdentity1, gateway1.pubKey);
+    await storeGatewayInKademlia(FabricTestEnvironment.FABRIC_NETWORK_ID, gatewayIdentity2, gateway2.pubKey);
+
+    log.info("=== STEP 2: Verifying gateway discovery ===");
+    const discoveryVerified = await verifyGatewayDiscovery(
+      FabricTestEnvironment.FABRIC_NETWORK_ID);
+    expect(discoveryVerified).toBe(true);
+
     log.info("Initiating transfer - this should trigger Kademlia discovery for the destination gateway");
     const res = await dispatcher1?.Transact(req);
+
+    const transferEndTime = performance.now();
+    const transferLatency = transferEndTime - transferStartTime;
     log.info(`Transfer response: ${res?.statusResponse}`);
+
+    const latencyStats = {
+      startTime: new Date(Date.now() - transferLatency).toISOString(),
+      endTime: new Date().toISOString(),
+      latencyMs: Math.round(transferLatency),
+      latencySeconds: Math.round(transferLatency / 1000 * 100) / 100,
+      transferType: "Besu to Fabric with Kademlia Discovery"
+    };
+
     expect(res?.statusResponse).toBeDefined();
 
 
@@ -476,6 +489,7 @@ describe("2 SATPGateways with Kademlia Discovery - Besu to Fabric", () => {
       fabricEnv.getTestOwnerSigningCredential(),
     );
     log.info("Amount was transferred correctly to the Fabric Owner account");
+    log.info(`Latency Statistics: ${JSON.stringify(latencyStats, null, 2)}`);
     await shutdownGateways();
   });
 });

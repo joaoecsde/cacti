@@ -134,6 +134,7 @@ beforeAll(async () => {
   }
 }, TIMEOUT);
 
+
 describe("2 SATPGateways sending a token from Besu to Fabric", () => {
   jest.setTimeout(TIMEOUT);
   it("should mint 100 tokens to the owner account", async () => {
@@ -311,8 +312,26 @@ describe("2 SATPGateways sending a token from Besu to Fabric", () => {
       "100",
     );
 
+    // START LATENCY MEASUREMENT
+    const transferStartTime = performance.now();
+    log.info(`Transfer started at: ${new Date().toISOString()}`);
+
     const res = await dispatcher1?.Transact(req);
+
+    const transferEndTime = performance.now();
+    const transferLatency = transferEndTime - transferStartTime;
+    log.info(`Transfer response: ${res?.statusResponse}`);
+
+    const latencyStats = {
+      startTime: new Date(Date.now() - transferLatency).toISOString(),
+      endTime: new Date().toISOString(),
+      latencyMs: Math.round(transferLatency),
+      latencySeconds: Math.round(transferLatency / 1000 * 100) / 100,
+      transferType: "Besu to Fabric normal Discovery"
+    };
     log.info(res?.statusResponse);
+
+
 
     await besuEnv.checkBalance(
       besuEnv.getTestContractName(),
@@ -351,7 +370,7 @@ describe("2 SATPGateways sending a token from Besu to Fabric", () => {
       fabricEnv.getTestOwnerSigningCredential(),
     );
     log.info("Amount was transfer correctly to the Owner account");
-
+    log.info(`Latency Statistics: ${JSON.stringify(latencyStats, null, 2)}`);
     await shutdownGateways();
   });
 });
@@ -525,7 +544,23 @@ describe("2 SATPGateways sending a token from Fabric to Besu", () => {
       "100",
     );
 
+        // START LATENCY MEASUREMENT
+    const transferStartTime = performance.now();
+    log.info(`Transfer started at: ${new Date().toISOString()}`);
+
     const res = await dispatcher1?.Transact(req);
+
+    const transferEndTime = performance.now();
+    const transferLatency = transferEndTime - transferStartTime;
+    log.info(`Transfer response: ${res?.statusResponse}`);
+
+    const latencyStats = {
+      startTime: new Date(Date.now() - transferLatency).toISOString(),
+      endTime: new Date().toISOString(),
+      latencyMs: Math.round(transferLatency),
+      latencySeconds: Math.round(transferLatency / 1000 * 100) / 100,
+      transferType: "Fabric to besu normal Discovery"
+    };
     log.info(res?.statusResponse);
 
     await fabricEnv.checkBalance(
@@ -566,7 +601,7 @@ describe("2 SATPGateways sending a token from Fabric to Besu", () => {
       besuEnv.getTestOwnerSigningCredential(),
     );
     log.info("Amount was transfer correctly to the Wrapper account");
-
+    log.info(`Latency Statistics: ${JSON.stringify(latencyStats, null, 2)}`);
     await shutdownGateways();
   });
 });
